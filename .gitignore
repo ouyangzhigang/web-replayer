@@ -1,0 +1,9 @@
+dist/
+www/
+.stencil/
+node_modules/
+.superpowers/
+*.log
+.DS_Store
+playground/node_modules/
+playground/dist/
