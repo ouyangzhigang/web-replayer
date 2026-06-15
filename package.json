@@ -13,7 +13,10 @@
     "./components/*": "./dist/components/*.js"
   },
   "types": "./dist/types/index.d.ts",
-  "files": ["dist/", "hydrate/"],
+  "collection": "./dist/collection/collection-manifest.json",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build": "stencil build",
     "dev": "concurrently \"stencil build --watch\" \"cd playground && pnpm dev\"",
@@ -28,8 +31,10 @@
     "@stencil/core": "^4.22.0",
     "@stencil/react-output-target": "^0.5.0",
     "@types/node": "^22.0.0",
+    "@types/pako": "^2.0.4",
     "concurrently": "^9.0.0",
     "eslint": "^9.0.0",
+    "jsdom": "^29.1.1",
     "prettier": "^3.5.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
@@ -39,7 +44,14 @@
     "pako": "^2.1.0",
     "rrweb": "^2.0.0"
   },
-  "keywords": ["replay", "rrweb", "heatmap", "analytics", "web-component", "stencil"],
+  "keywords": [
+    "replay",
+    "rrweb",
+    "heatmap",
+    "analytics",
+    "web-component",
+    "stencil"
+  ],
   "author": "zaneouyang@lexin.com",
   "license": "MIT"
 }

@@ -1,0 +1,1429 @@
+{
+  "timestamp": "2026-06-15T14:36:53",
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "4.43.5",
+    "typescriptVersion": "5.8.3"
+  },
+  "components": [
+    {
+      "filePath": "src/components/heatmap/heatmap-canvas.tsx",
+      "encapsulation": "shadow",
+      "tag": "heatmap-canvas",
+      "readme": "# web-heatmap\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "colorScheme",
+          "type": "\"cool\" | \"custom\" | \"warm\"",
+          "complexType": {
+            "original": "HeatmapColorScheme",
+            "resolved": "\"cool\" | \"custom\" | \"warm\"",
+            "references": {
+              "HeatmapColorScheme": {
+                "location": "import",
+                "path": "../../types/analytics",
+                "id": "src/types/analytics.ts::HeatmapColorScheme",
+                "referenceLocation": "HeatmapColorScheme"
+              }
+            }
+          },
+          "mutable": false,
+          "attr": "color-scheme",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "'warm'"
+            }
+          ],
+          "default": "'warm'",
+          "values": [
+            {
+              "value": "cool",
+              "type": "string"
+            },
+            {
+              "value": "custom",
+              "type": "string"
+            },
+            {
+              "value": "warm",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "data",
+          "type": "HeatmapData",
+          "complexType": {
+            "original": "HeatmapData",
+            "resolved": "HeatmapData",
+            "references": {
+              "HeatmapData": {
+                "location": "import",
+                "path": "../../types/analytics",
+                "id": "src/types/analytics.ts::HeatmapData",
+                "referenceLocation": "HeatmapData"
+              }
+            }
+          },
+          "mutable": false,
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "HeatmapData"
+            }
+          ],
+          "optional": false,
+          "required": true,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "opacity",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "opacity",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "0.6"
+            }
+          ],
+          "default": "0.6",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "states": [],
+      "dependents": [
+        "web-heatmap"
+      ],
+      "dependencies": [],
+      "dependencyGraph": {
+        "web-heatmap": [
+          "heatmap-canvas"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/replayer/replayer-controls.tsx",
+      "encapsulation": "shadow",
+      "tag": "replayer-controls",
+      "readme": "# web-replayer\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "currentTime",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "current-time",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "0"
+            }
+          ],
+          "default": "0",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "playing",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "playing",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "false"
+            }
+          ],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "speed",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "1"
+            }
+          ],
+          "default": "1",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "totalTime",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "total-time",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "0"
+            }
+          ],
+          "default": "0",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        }
+      ],
+      "methods": [],
+      "events": [
+        {
+          "event": "playPause",
+          "detail": "void",
+          "bubbles": true,
+          "complexType": {
+            "original": "void",
+            "resolved": "void",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "seek",
+          "detail": "number",
+          "bubbles": true,
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "speedChange",
+          "detail": "number",
+          "bubbles": true,
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        }
+      ],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "states": [],
+      "dependents": [
+        "web-replayer"
+      ],
+      "dependencies": [],
+      "dependencyGraph": {
+        "web-replayer": [
+          "replayer-controls"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/stats-panel/stats-chart.tsx",
+      "encapsulation": "shadow",
+      "tag": "stats-chart",
+      "readme": "# web-stats-panel\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "breakdown",
+          "type": "OperationTally[]",
+          "complexType": {
+            "original": "OperationTally[]",
+            "resolved": "OperationTally[]",
+            "references": {
+              "OperationTally": {
+                "location": "import",
+                "path": "../../types/analytics",
+                "id": "src/types/analytics.ts::OperationTally",
+                "referenceLocation": "OperationTally"
+              }
+            }
+          },
+          "mutable": false,
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "OperationTally[]"
+            }
+          ],
+          "optional": false,
+          "required": true,
+          "getter": false,
+          "setter": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "states": [],
+      "dependents": [
+        "web-stats-panel"
+      ],
+      "dependencies": [],
+      "dependencyGraph": {
+        "web-stats-panel": [
+          "stats-chart"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/heatmap/web-heatmap.tsx",
+      "encapsulation": "shadow",
+      "tag": "web-heatmap",
+      "readme": "# web-heatmap\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "colorScheme",
+          "type": "\"cool\" | \"custom\" | \"warm\"",
+          "complexType": {
+            "original": "HeatmapColorScheme",
+            "resolved": "\"cool\" | \"custom\" | \"warm\"",
+            "references": {
+              "HeatmapColorScheme": {
+                "location": "import",
+                "path": "../../types/analytics",
+                "id": "src/types/analytics.ts::HeatmapColorScheme",
+                "referenceLocation": "HeatmapColorScheme"
+              }
+            }
+          },
+          "mutable": false,
+          "attr": "color-scheme",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "'warm'"
+            }
+          ],
+          "default": "'warm'",
+          "values": [
+            {
+              "value": "cool",
+              "type": "string"
+            },
+            {
+              "value": "custom",
+              "type": "string"
+            },
+            {
+              "value": "warm",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "events",
+          "type": "RrwebEvent[]",
+          "complexType": {
+            "original": "RrwebEvent[]",
+            "resolved": "RrwebEvent[]",
+            "references": {
+              "RrwebEvent": {
+                "location": "import",
+                "path": "../../types/events",
+                "id": "src/types/events.ts::RrwebEvent",
+                "referenceLocation": "RrwebEvent"
+              }
+            }
+          },
+          "mutable": false,
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "RrwebEvent[]"
+            }
+          ],
+          "optional": false,
+          "required": true,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "opacity",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "opacity",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "0.6"
+            }
+          ],
+          "default": "0.6",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "type",
+          "type": "\"all\" | \"click\" | \"move\" | \"scroll\"",
+          "complexType": {
+            "original": "HeatmapType",
+            "resolved": "\"all\" | \"click\" | \"move\" | \"scroll\"",
+            "references": {
+              "HeatmapType": {
+                "location": "import",
+                "path": "../../types/analytics",
+                "id": "src/types/analytics.ts::HeatmapType",
+                "referenceLocation": "HeatmapType"
+              }
+            }
+          },
+          "mutable": false,
+          "attr": "type",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "'all'"
+            }
+          ],
+          "default": "'all'",
+          "values": [
+            {
+              "value": "all",
+              "type": "string"
+            },
+            {
+              "value": "click",
+              "type": "string"
+            },
+            {
+              "value": "move",
+              "type": "string"
+            },
+            {
+              "value": "scroll",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "states": [],
+      "dependents": [
+        "web-replayer"
+      ],
+      "dependencies": [
+        "heatmap-canvas"
+      ],
+      "dependencyGraph": {
+        "web-heatmap": [
+          "heatmap-canvas"
+        ],
+        "web-replayer": [
+          "web-heatmap"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/replayer/web-replayer.tsx",
+      "encapsulation": "shadow",
+      "tag": "web-replayer",
+      "readme": "# web-replayer\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "autoPlay",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "auto-play",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "false"
+            }
+          ],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "data",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": true,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "complexType": {
+            "original": "number",
+            "resolved": "number | undefined",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "height",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "undefined"
+            }
+          ],
+          "optional": true,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "showControls",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "show-controls",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "true"
+            }
+          ],
+          "default": "true",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "showHeatmap",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "show-heatmap",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "false"
+            }
+          ],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "showStats",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "show-stats",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "false"
+            }
+          ],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "speed",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "1"
+            }
+          ],
+          "default": "1",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "startTime",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "start-time",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "0"
+            }
+          ],
+          "default": "0",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "width",
+          "type": "number | undefined",
+          "complexType": {
+            "original": "number",
+            "resolved": "number | undefined",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "width",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "undefined"
+            }
+          ],
+          "optional": true,
+          "required": false,
+          "getter": false,
+          "setter": false
+        }
+      ],
+      "methods": [
+        {
+          "name": "getAnalytics",
+          "returns": {
+            "type": "Promise<AnalyticsData | null>",
+            "docs": ""
+          },
+          "complexType": {
+            "signature": "() => Promise<AnalyticsData | null>",
+            "parameters": [],
+            "references": {
+              "Promise": {
+                "location": "global",
+                "id": "global::Promise"
+              },
+              "AnalyticsData": {
+                "location": "import",
+                "path": "../../types/analytics",
+                "id": "src/types/analytics.ts::AnalyticsData",
+                "referenceLocation": "AnalyticsData"
+              }
+            },
+            "return": "Promise<AnalyticsData | null>"
+          },
+          "signature": "getAnalytics() => Promise<AnalyticsData | null>",
+          "parameters": [],
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "name": "getEvents",
+          "returns": {
+            "type": "Promise<RrwebEvent[]>",
+            "docs": ""
+          },
+          "complexType": {
+            "signature": "() => Promise<RrwebEvent[]>",
+            "parameters": [],
+            "references": {
+              "Promise": {
+                "location": "global",
+                "id": "global::Promise"
+              },
+              "RrwebEvent": {
+                "location": "import",
+                "path": "../../types/events",
+                "id": "src/types/events.ts::RrwebEvent",
+                "referenceLocation": "RrwebEvent"
+              }
+            },
+            "return": "Promise<RrwebEvent[]>"
+          },
+          "signature": "getEvents() => Promise<RrwebEvent[]>",
+          "parameters": [],
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "name": "pause",
+          "returns": {
+            "type": "Promise<void>",
+            "docs": ""
+          },
+          "complexType": {
+            "signature": "() => Promise<void>",
+            "parameters": [],
+            "references": {
+              "Promise": {
+                "location": "global",
+                "id": "global::Promise"
+              }
+            },
+            "return": "Promise<void>"
+          },
+          "signature": "pause() => Promise<void>",
+          "parameters": [],
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "name": "play",
+          "returns": {
+            "type": "Promise<void>",
+            "docs": ""
+          },
+          "complexType": {
+            "signature": "() => Promise<void>",
+            "parameters": [],
+            "references": {
+              "Promise": {
+                "location": "global",
+                "id": "global::Promise"
+              }
+            },
+            "return": "Promise<void>"
+          },
+          "signature": "play() => Promise<void>",
+          "parameters": [],
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "name": "seek",
+          "returns": {
+            "type": "Promise<void>",
+            "docs": ""
+          },
+          "complexType": {
+            "signature": "(time: number) => Promise<void>",
+            "parameters": [
+              {
+                "name": "time",
+                "type": "number",
+                "docs": ""
+              }
+            ],
+            "references": {
+              "Promise": {
+                "location": "global",
+                "id": "global::Promise"
+              }
+            },
+            "return": "Promise<void>"
+          },
+          "signature": "seek(time: number) => Promise<void>",
+          "parameters": [
+            {
+              "name": "time",
+              "type": "number",
+              "docs": ""
+            }
+          ],
+          "docs": "",
+          "docsTags": []
+        }
+      ],
+      "events": [
+        {
+          "event": "decompressError",
+          "detail": "DecompressErrorDetail",
+          "bubbles": true,
+          "complexType": {
+            "original": "DecompressErrorDetail",
+            "resolved": "DecompressErrorDetail",
+            "references": {
+              "DecompressErrorDetail": {
+                "location": "import",
+                "path": "../../types/component-props",
+                "id": "src/types/component-props.ts::DecompressErrorDetail",
+                "referenceLocation": "DecompressErrorDetail"
+              }
+            }
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "heatmapReady",
+          "detail": "HeatmapReadyDetail",
+          "bubbles": true,
+          "complexType": {
+            "original": "HeatmapReadyDetail",
+            "resolved": "HeatmapReadyDetail",
+            "references": {
+              "HeatmapReadyDetail": {
+                "location": "import",
+                "path": "../../types/component-props",
+                "id": "src/types/component-props.ts::HeatmapReadyDetail",
+                "referenceLocation": "HeatmapReadyDetail"
+              }
+            }
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "replayFinish",
+          "detail": "void",
+          "bubbles": true,
+          "complexType": {
+            "original": "void",
+            "resolved": "void",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "replayPause",
+          "detail": "void",
+          "bubbles": true,
+          "complexType": {
+            "original": "void",
+            "resolved": "void",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "replayReady",
+          "detail": "ReplayReadyDetail",
+          "bubbles": true,
+          "complexType": {
+            "original": "ReplayReadyDetail",
+            "resolved": "ReplayReadyDetail",
+            "references": {
+              "ReplayReadyDetail": {
+                "location": "import",
+                "path": "../../types/component-props",
+                "id": "src/types/component-props.ts::ReplayReadyDetail",
+                "referenceLocation": "ReplayReadyDetail"
+              }
+            }
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "replayStart",
+          "detail": "void",
+          "bubbles": true,
+          "complexType": {
+            "original": "void",
+            "resolved": "void",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "replayTimeUpdate",
+          "detail": "ReplayTimeUpdateDetail",
+          "bubbles": true,
+          "complexType": {
+            "original": "ReplayTimeUpdateDetail",
+            "resolved": "ReplayTimeUpdateDetail",
+            "references": {
+              "ReplayTimeUpdateDetail": {
+                "location": "import",
+                "path": "../../types/component-props",
+                "id": "src/types/component-props.ts::ReplayTimeUpdateDetail",
+                "referenceLocation": "ReplayTimeUpdateDetail"
+              }
+            }
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "statsReady",
+          "detail": "StatsReadyDetail",
+          "bubbles": true,
+          "complexType": {
+            "original": "StatsReadyDetail",
+            "resolved": "StatsReadyDetail",
+            "references": {
+              "StatsReadyDetail": {
+                "location": "import",
+                "path": "../../types/component-props",
+                "id": "src/types/component-props.ts::StatsReadyDetail",
+                "referenceLocation": "StatsReadyDetail"
+              }
+            }
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        }
+      ],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "states": [],
+      "dependents": [],
+      "dependencies": [
+        "web-heatmap",
+        "replayer-controls",
+        "web-stats-panel"
+      ],
+      "dependencyGraph": {
+        "web-replayer": [
+          "web-heatmap",
+          "replayer-controls",
+          "web-stats-panel"
+        ],
+        "web-heatmap": [
+          "heatmap-canvas"
+        ],
+        "web-stats-panel": [
+          "stats-chart"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/stats-panel/web-stats-panel.tsx",
+      "encapsulation": "shadow",
+      "tag": "web-stats-panel",
+      "readme": "# web-stats-panel\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "events",
+          "type": "RrwebEvent[]",
+          "complexType": {
+            "original": "RrwebEvent[]",
+            "resolved": "RrwebEvent[]",
+            "references": {
+              "RrwebEvent": {
+                "location": "import",
+                "path": "../../types/events",
+                "id": "src/types/events.ts::RrwebEvent",
+                "referenceLocation": "RrwebEvent"
+              }
+            }
+          },
+          "mutable": false,
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "RrwebEvent[]"
+            }
+          ],
+          "optional": false,
+          "required": true,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "layout",
+          "type": "\"bottom\" | \"modal\" | \"sidebar\"",
+          "complexType": {
+            "original": "StatsPanelLayout",
+            "resolved": "\"bottom\" | \"modal\" | \"sidebar\"",
+            "references": {
+              "StatsPanelLayout": {
+                "location": "import",
+                "path": "../../types/analytics",
+                "id": "src/types/analytics.ts::StatsPanelLayout",
+                "referenceLocation": "StatsPanelLayout"
+              }
+            }
+          },
+          "mutable": false,
+          "attr": "layout",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "'sidebar'"
+            }
+          ],
+          "default": "'sidebar'",
+          "values": [
+            {
+              "value": "bottom",
+              "type": "string"
+            },
+            {
+              "value": "modal",
+              "type": "string"
+            },
+            {
+              "value": "sidebar",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "metrics",
+          "type": "StatsMetric[]",
+          "complexType": {
+            "original": "StatsMetric[]",
+            "resolved": "StatsMetric[]",
+            "references": {
+              "StatsMetric": {
+                "location": "import",
+                "path": "../../types/analytics",
+                "id": "src/types/analytics.ts::StatsMetric",
+                "referenceLocation": "StatsMetric"
+              }
+            }
+          },
+          "mutable": false,
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "['clicks', 'scrolls', 'inputs', 'duration', 'path']"
+            }
+          ],
+          "default": "['clicks', 'scrolls', 'inputs', 'duration', 'path']",
+          "values": [
+            {
+              "type": "StatsMetric[]"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "states": [],
+      "dependents": [
+        "web-replayer"
+      ],
+      "dependencies": [
+        "stats-chart"
+      ],
+      "dependencyGraph": {
+        "web-stats-panel": [
+          "stats-chart"
+        ],
+        "web-replayer": [
+          "web-stats-panel"
+        ]
+      }
+    },
+    {
+      "filePath": "src/components/shared/tooltip.tsx",
+      "encapsulation": "shadow",
+      "tag": "wr-tooltip",
+      "readme": "# wr-tooltip\n\n\n",
+      "docs": "",
+      "docsTags": [],
+      "usage": {},
+      "props": [
+        {
+          "name": "position",
+          "type": "\"bottom\" | \"left\" | \"right\" | \"top\"",
+          "complexType": {
+            "original": "'top' | 'bottom' | 'left' | 'right'",
+            "resolved": "\"bottom\" | \"left\" | \"right\" | \"top\"",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "position",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "'top'"
+            }
+          ],
+          "default": "'top'",
+          "values": [
+            {
+              "value": "bottom",
+              "type": "string"
+            },
+            {
+              "value": "left",
+              "type": "string"
+            },
+            {
+              "value": "right",
+              "type": "string"
+            },
+            {
+              "value": "top",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "text",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": true,
+          "getter": false,
+          "setter": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "listeners": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "states": [],
+      "dependents": [],
+      "dependencies": [],
+      "dependencyGraph": {}
+    }
+  ],
+  "typeLibrary": {
+    "src/types/component-props.ts::ReplayReadyDetail": {
+      "declaration": "export interface ReplayReadyDetail {\n  replayer: unknown;\n  metadata: SessionMetadata;\n}",
+      "docstring": "Custom event detail types emitted by components",
+      "path": "src/types/component-props.ts"
+    },
+    "src/types/component-props.ts::ReplayTimeUpdateDetail": {
+      "declaration": "export interface ReplayTimeUpdateDetail {\n  currentTime: number;\n  totalTime: number;\n}",
+      "docstring": "",
+      "path": "src/types/component-props.ts"
+    },
+    "src/types/component-props.ts::HeatmapReadyDetail": {
+      "declaration": "export interface HeatmapReadyDetail {\n  heatmapData: HeatmapData;\n}",
+      "docstring": "",
+      "path": "src/types/component-props.ts"
+    },
+    "src/types/component-props.ts::StatsReadyDetail": {
+      "declaration": "export interface StatsReadyDetail {\n  statsData: StatsData;\n}",
+      "docstring": "",
+      "path": "src/types/component-props.ts"
+    },
+    "src/types/component-props.ts::DecompressErrorDetail": {
+      "declaration": "export interface DecompressErrorDetail {\n  error: string;\n  rawInput: string;\n}",
+      "docstring": "",
+      "path": "src/types/component-props.ts"
+    },
+    "src/types/events.ts::RrwebEvent": {
+      "declaration": "export type RrwebEvent = RrwebEventBase &\n  (\n    | { type: RrwebEventType.FullSnapshot; data: { node: unknown; initialOffset: unknown } }\n    | { type: RrwebEventType.IncrementalSnapshot; data: IncrementalSnapshotData }\n    | { type: RrwebEventType.Meta; data: Record<string, unknown> }\n    | { type: RrwebEventType.DomContentLoaded; data: Record<string, unknown> }\n    | { type: RrwebEventType.Load; data: Record<string, unknown> }\n    | { type: RrwebEventType.Custom; data: Record<string, unknown> }\n    | { type: RrwebEventType.Font; data: Record<string, unknown> }\n  );",
+      "docstring": "",
+      "path": "src/types/events.ts"
+    },
+    "src/types/analytics.ts::AnalyticsData": {
+      "declaration": "export interface AnalyticsData {\n  heatmap: HeatmapData;\n  stats: StatsData;\n}",
+      "docstring": "The unified analytics output combining heatmap + stats",
+      "path": "src/types/analytics.ts"
+    },
+    "src/types/analytics.ts::HeatmapType": {
+      "declaration": "export type HeatmapType = 'click' | 'move' | 'scroll' | 'all';",
+      "docstring": "",
+      "path": "src/types/analytics.ts"
+    },
+    "src/types/analytics.ts::HeatmapColorScheme": {
+      "declaration": "export type HeatmapColorScheme = 'warm' | 'cool' | 'custom';",
+      "docstring": "",
+      "path": "src/types/analytics.ts"
+    },
+    "src/types/analytics.ts::HeatmapData": {
+      "declaration": "export interface HeatmapData {\n  points: HeatmapPoint[];\n  /** Bounding viewport dimensions used during recording */\n  viewportWidth: number;\n  viewportHeight: number;\n  /** Maximum interaction count at any single point (for normalization) */\n  maxCount: number;\n}",
+      "docstring": "Heatmap data ready for rendering",
+      "path": "src/types/analytics.ts"
+    },
+    "src/types/analytics.ts::StatsPanelLayout": {
+      "declaration": "export type StatsPanelLayout = 'sidebar' | 'bottom' | 'modal';",
+      "docstring": "",
+      "path": "src/types/analytics.ts"
+    },
+    "src/types/analytics.ts::StatsMetric": {
+      "declaration": "export type StatsMetric = 'clicks' | 'scrolls' | 'inputs' | 'duration' | 'path';",
+      "docstring": "",
+      "path": "src/types/analytics.ts"
+    },
+    "src/types/analytics.ts::OperationTally": {
+      "declaration": "export interface OperationTally {\n  type: string;\n  count: number;\n  /** Percentage of total operations */\n  percentage: number;\n}",
+      "docstring": "A single operation type tally",
+      "path": "src/types/analytics.ts"
+    }
+  }
+}

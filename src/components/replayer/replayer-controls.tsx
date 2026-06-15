@@ -11,9 +11,9 @@ export class ReplayerControls {
   @Prop() totalTime = 0;
   @Prop() speed = 1;
 
-  @Event({ bubbles: true, composed: true }) playPause: EventEmitter<void>;
-  @Event({ bubbles: true, composed: true }) seek: EventEmitter<number>;
-  @Event({ bubbles: true, composed: true }) speedChange: EventEmitter<number>;
+  @Event({ bubbles: true, composed: true }) playPause!: EventEmitter<void>;
+  @Event({ bubbles: true, composed: true }) seek!: EventEmitter<number>;
+  @Event({ bubbles: true, composed: true }) speedChange!: EventEmitter<number>;
 
   private speedOptions = [0.5, 1, 2, 4, 8];
 
@@ -41,7 +41,7 @@ export class ReplayerControls {
         </div>
 
         <div class="speed-section">
-          <select class="speed-select" value={this.speed} onChange={this.handleSpeedChange} aria-label="Playback speed">
+          <select class="speed-select" onChange={this.handleSpeedChange} aria-label="Playback speed" ref={(el?: HTMLSelectElement) => { if (el) el.value = String(this.speed); }}>
             {this.speedOptions.map((s) => <option value={s}>{s}x</option>)}
           </select>
         </div>

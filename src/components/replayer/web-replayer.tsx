@@ -17,7 +17,7 @@ import {
   h,
   Host,
 } from '@stencil/core';
-import { Replayer } from 'rrweb';
+import { Replayer, eventWithTime } from 'rrweb';
 import { decompress } from '../../utils/decompress';
 import { parseEvents, validateEvents, extractMetadata } from '../../utils/event-parser';
 import { computeAnalytics } from '../../utils/analytics';
@@ -64,14 +64,14 @@ export class WebReplayer {
   private replayer: Replayer | null = null;
 
   // ── Events ──
-  @Event({ bubbles: true, composed: true }) replayReady: EventEmitter<ReplayReadyDetail>;
-  @Event({ bubbles: true, composed: true }) replayStart: EventEmitter<void>;
-  @Event({ bubbles: true, composed: true }) replayPause: EventEmitter<void>;
-  @Event({ bubbles: true, composed: true }) replayFinish: EventEmitter<void>;
-  @Event({ bubbles: true, composed: true }) replayTimeUpdate: EventEmitter<ReplayTimeUpdateDetail>;
-  @Event({ bubbles: true, composed: true }) heatmapReady: EventEmitter<HeatmapReadyDetail>;
-  @Event({ bubbles: true, composed: true }) statsReady: EventEmitter<StatsReadyDetail>;
-  @Event({ bubbles: true, composed: true }) decompressError: EventEmitter<DecompressErrorDetail>;
+  @Event({ bubbles: true, composed: true }) replayReady!: EventEmitter<ReplayReadyDetail>;
+  @Event({ bubbles: true, composed: true }) replayStart!: EventEmitter<void>;
+  @Event({ bubbles: true, composed: true }) replayPause!: EventEmitter<void>;
+  @Event({ bubbles: true, composed: true }) replayFinish!: EventEmitter<void>;
+  @Event({ bubbles: true, composed: true }) replayTimeUpdate!: EventEmitter<ReplayTimeUpdateDetail>;
+  @Event({ bubbles: true, composed: true }) heatmapReady!: EventEmitter<HeatmapReadyDetail>;
+  @Event({ bubbles: true, composed: true }) statsReady!: EventEmitter<StatsReadyDetail>;
+  @Event({ bubbles: true, composed: true }) decompressError!: EventEmitter<DecompressErrorDetail>;
 
   // ── Watchers ──
   @Watch('data')
@@ -82,7 +82,7 @@ export class WebReplayer {
   @Watch('speed')
   onSpeedChange(newSpeed: number) {
     if (this.replayer) {
-      this.replayer.setSpeed(newSpeed);
+      this.replayer.setConfig({ speed: newSpeed });
     }
   }
 
@@ -138,7 +138,7 @@ export class WebReplayer {
   @Method()
   async seek(time: number): Promise<void> {
     if (!this.replayer) return;
-    this.replayer.seek(time);
+    this.replayer.play(time);
     this.currentTime = time;
     this.replayTimeUpdate.emit({ currentTime: time, totalTime: this.totalTime });
   }
@@ -195,11 +195,11 @@ export class WebReplayer {
 
     destroyReplayer(this.replayer);
 
-    this.replayer = new Replayer(this.events, {
+    this.replayer = new Replayer(this.events as unknown as Array<eventWithTime | string>, {
       root: container as Element,
       speed: this.speed,
       skipInactive: true,
-      showDebugger: false,
+      showDebug: false,
     });
 
     this.replayer.on('finish', () => {
@@ -214,7 +214,7 @@ export class WebReplayer {
     }
 
     if (this.startTime > 0) {
-      this.replayer.seek(this.startTime);
+      this.replayer.play(this.startTime);
     }
   }
 

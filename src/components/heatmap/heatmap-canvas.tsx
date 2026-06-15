@@ -49,6 +49,6 @@ export class HeatmapCanvas {
   render() {
     if (!this.data) return null;
     const { viewportWidth, viewportHeight } = this.data;
-    return <canvas width={viewportWidth} height={viewportHeight} style={{ width: `${viewportWidth}px`, height: `${viewportHeight}px`, opacity: this.opacity }} />;
+    return <canvas width={viewportWidth} height={viewportHeight} style={{ width: `${viewportWidth}px`, height: `${viewportHeight}px`, opacity: String(this.opacity) }} />;
   }
 }
