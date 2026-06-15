@@ -40,5 +40,6 @@
     "rrweb": "^2.0.0"
   },
   "keywords": ["replay", "rrweb", "heatmap", "analytics", "web-component", "stencil"],
+  "author": "zaneouyang@lexin.com",
   "license": "MIT"
 }
