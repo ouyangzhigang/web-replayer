@@ -1,0 +1,4 @@
+:host { display: block; contain: layout style; }
+:host(.heatmap-empty) { display: flex; align-items: center; justify-content: center; min-height: 100px; }
+:host(.heatmap-active) { position: relative; }
+.no-data { color: #999; font-size: 0.8rem; text-align: center; }

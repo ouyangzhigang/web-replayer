@@ -1,0 +1,2 @@
+:host { position: absolute; top: 0; left: 0; pointer-events: none; contain: layout style; }
+canvas { position: absolute; top: 0; left: 0; mix-blend-mode: multiply; }
