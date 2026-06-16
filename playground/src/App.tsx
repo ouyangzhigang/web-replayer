@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DEMO_DATA_URI, DEMO_DATA_UTF16, DEMO_DATA_RAW } from './demo-data';
 
 type DataFormat = 'uri-safe' | 'utf-16' | 'raw';
-const DATA_MAP: Record<DataFormat, string> = { 'uri-safe': DEMO_DATA_URI, 'utf-16': DEMO_DATA_UTF16, raw: DEMO_DATA_RAW };
+const DATA_MAP: Record<DataFormat, string> = {
+  'uri-safe': DEMO_DATA_URI,
+  'utf-16': DEMO_DATA_UTF16,
+  raw: DEMO_DATA_RAW,
+};
 
 function App() {
   const [dataFormat, setDataFormat] = useState<DataFormat>('uri-safe');
@@ -10,6 +14,22 @@ function App() {
   const [showStats, setShowStats] = useState(false);
   const [autoPlay, setAutoPlay] = useState(false);
   const [speed, setSpeed] = useState(1);
+
+  const replayerRef = useRef<HTMLElement>(null);
+
+  // Set properties directly on the Custom Element via ref — avoids
+  // HTML attribute truncation issues with very long compressed strings.
+  // In Stencil, setting a JS property bypasses attribute parsing.
+  useEffect(() => {
+    const el = replayerRef.current;
+    if (!el) return;
+    // Stencil props can be set as JS properties directly
+    (el as any).data = DATA_MAP[dataFormat];
+    (el as any).speed = speed;
+    (el as any).showHeatmap = showHeatmap;
+    (el as any).showStats = showStats;
+    (el as any).autoPlay = autoPlay;
+  }, [dataFormat, speed, showHeatmap, showStats, autoPlay]);
 
   return (
     <div className="playground">
@@ -38,15 +58,8 @@ function App() {
         </label>
       </nav>
       <main className="playground-main">
-        <web-replayer
-          data={DATA_MAP[dataFormat]}
-          show-heatmap={showHeatmap ? true : undefined}
-          show-stats={showStats ? true : undefined}
-          auto-play={autoPlay ? true : undefined}
-          speed={speed}
-          width={800}
-          height={450}
-        />
+        {/* Use ref to set props directly as JS properties — bypasses attribute parsing */}
+        <web-replayer ref={replayerRef} />
       </main>
       <footer className="playground-footer">
         <p>Switch data format to test auto-detection | Toggle heatmap/stats overlays | Adjust speed</p>

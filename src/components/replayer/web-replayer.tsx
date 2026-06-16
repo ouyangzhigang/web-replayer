@@ -3,6 +3,12 @@
  *
  * Accepts compressed rrweb data, auto-decompresses, and renders
  * the session replay with optional heatmap overlay and stats panel.
+ *
+ * Lifecycle strategy:
+ *   - processData() decompresses/parses data and sets events + needInit flag
+ *   - componentDidUpdate() checks needInit flag and creates Replayer
+ *   - This avoids componentDidRender's re-init-on-every-render problem
+ *   - Data changes properly destroy old Replayer before creating new one
  */
 
 import {
@@ -62,6 +68,8 @@ export class WebReplayer {
 
   // ── Internal ──
   private replayer: Replayer | null = null;
+  /** Flag set by processData when events change — triggers Replayer init in componentDidUpdate */
+  private needInit = false;
 
   // ── Events ──
   @Event({ bubbles: true, composed: true }) replayReady!: EventEmitter<ReplayReadyDetail>;
@@ -101,14 +109,16 @@ export class WebReplayer {
   }
 
   // ── Lifecycle ──
+
   componentWillLoad() {
     if (this.data) {
       this.processData(this.data);
     }
   }
 
-  componentDidRender() {
-    if (this.events.length > 0 && !this.replayer) {
+  componentDidUpdate() {
+    if (this.needInit && this.events.length > 0) {
+      this.needInit = false;
       this.initReplayer();
     }
   }
@@ -119,6 +129,7 @@ export class WebReplayer {
   }
 
   // ── Public Methods ──
+
   @Method()
   async play(): Promise<void> {
     if (!this.replayer) return;
@@ -154,9 +165,14 @@ export class WebReplayer {
   }
 
   // ── Private Methods ──
+
   private processData(raw: string) {
     this.loading = true;
     this.error = null;
+
+    // Destroy old Replayer when data changes
+    destroyReplayer(this.replayer);
+    this.replayer = null;
 
     try {
       const decompressed = decompress(raw);
@@ -172,10 +188,13 @@ export class WebReplayer {
       this.events = events;
       this.analyticsData = null;
       this.loading = false;
+      this.needInit = true; // schedule Replayer init for next componentDidUpdate
 
       const metadata = extractMetadata(events);
       const lastEvent = events[events.length - 1];
       this.totalTime = lastEvent.timestamp - events[0].timestamp;
+      this.currentTime = 0;
+      this.playing = false;
 
       this.replayReady.emit({ replayer: this.replayer, metadata });
 
@@ -191,30 +210,42 @@ export class WebReplayer {
 
   private initReplayer() {
     const container = this.host.shadowRoot?.querySelector('.replay-container');
-    if (!container || this.events.length === 0) return;
+    if (!container) return;
 
-    destroyReplayer(this.replayer);
+    try {
+      this.replayer = new Replayer(
+        this.events as unknown as Array<eventWithTime | string>,
+        {
+          root: container as Element,
+          speed: this.speed,
+          skipInactive: true,
+          showDebug: false,
+        },
+      );
+    } catch (e) {
+      this.error = `Replayer init failed: ${(e as Error).message}`;
+      this.decompressError.emit({ error: this.error, rawInput: '' });
+      this.replayer = null;
+      return;
+    }
 
-    this.replayer = new Replayer(this.events as unknown as Array<eventWithTime | string>, {
-      root: container as Element,
-      speed: this.speed,
-      skipInactive: true,
-      showDebug: false,
-    });
-
+    // Listen for playback finish
     this.replayer.on('finish', () => {
       this.playing = false;
       this.replayFinish.emit();
     });
 
+    // Auto-play if configured
     if (this.autoPlay) {
       this.replayer.play();
       this.playing = true;
       this.replayStart.emit();
     }
 
+    // Seek to startTime if specified
     if (this.startTime > 0) {
       this.replayer.play(this.startTime);
+      this.currentTime = this.startTime;
     }
   }
 
@@ -226,6 +257,7 @@ export class WebReplayer {
   }
 
   // ── Render ──
+
   render() {
     if (this.error) {
       return (
