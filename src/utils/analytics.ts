@@ -13,6 +13,7 @@ import {
   RrwebEvent,
   RrwebEventType,
   IncrementalSource,
+  IncrementalSnapshotData,
   MouseInteractionType,
 } from '../types/events';
 import {
@@ -51,31 +52,25 @@ export function computeHeatmapData(
 
   for (const event of events) {
     if (event.type !== RrwebEventType.IncrementalSnapshot) continue;
-    const data = (
-      event as {
-        data: {
-          source: number;
-          data: Record<string, unknown>;
-          position?: { x: number; y: number };
-        };
-      }
-    ).data;
+    const eventData = (event as { data: IncrementalSnapshotData }).data;
 
-    if (!shouldIncludeForHeatmap(data.source, type)) continue;
+    if (!shouldIncludeForHeatmap(eventData.source, type)) continue;
 
     // For click heatmap type, additionally filter by MouseInteractionType
     if (type === 'click') {
-      const interactionType = data.data?.type as number;
+      const interactionType = eventData.data?.type as number;
       if (interactionType !== MouseInteractionType.Click) continue;
     }
 
-    // Get coordinates from position field
-    const pos = data.position;
-    if (!pos) continue;
+    // Get coordinates — in rrweb v2, x and y are direct fields in data.data
+    // for mouse interactions, and in data.data for scroll events (as scrollPosition)
+    const x = eventData.data?.x as number;
+    const y = eventData.data?.y as number;
+    if (x == null || y == null) continue;
 
     // Hash into grid bucket
-    const bucketX = Math.floor(pos.x / HEATMAP_GRID_SIZE) * HEATMAP_GRID_SIZE;
-    const bucketY = Math.floor(pos.y / HEATMAP_GRID_SIZE) * HEATMAP_GRID_SIZE;
+    const bucketX = Math.floor(x / HEATMAP_GRID_SIZE) * HEATMAP_GRID_SIZE;
+    const bucketY = Math.floor(y / HEATMAP_GRID_SIZE) * HEATMAP_GRID_SIZE;
     const key = `${bucketX},${bucketY}`;
 
     const existing = grid.get(key);
@@ -144,17 +139,8 @@ export function computeStatsData(events: RrwebEvent[]): StatsData {
     }
 
     if (event.type !== RrwebEventType.IncrementalSnapshot) continue;
-    const data = (
-      event as {
-        data: {
-          source: number;
-          data: Record<string, unknown>;
-          position?: { x: number; y: number };
-          id?: number;
-        };
-      }
-    ).data;
-    const source = data.source as IncrementalSource;
+    const eventData = (event as { data: IncrementalSnapshotData }).data;
+    const source = eventData.source as IncrementalSource;
 
     // Count by category
     switch (source) {
@@ -162,10 +148,11 @@ export function computeStatsData(events: RrwebEvent[]): StatsData {
         totalClicks++;
         tallyMap.set('click', (tallyMap.get('click') ?? 0) + 1);
         // Record path step for significant clicks
-        if (currentHref && data.data) {
+        if (currentHref && eventData.data) {
+          const nodeId = eventData.data.id as number;
           pathSteps.push({
             page: currentHref,
-            action: `click (id: ${data.id ?? 'unknown'})`,
+            action: `click (id: ${nodeId ?? 'unknown'})`,
             timeOffset: event.timestamp - startTime,
           });
         }

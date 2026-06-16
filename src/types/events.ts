@@ -21,35 +21,34 @@ export enum RrwebEventType {
   Font = 6,
 }
 
-/** Incremental snapshot data payloads */
+/** Incremental snapshot data — mirrors rrweb v2 incrementalData structure.
+ *  Coordinates (x, y) are direct fields in the data object for mouse/scroll events,
+ *  matching rrweb's actual format (no separate `position` sub-object). */
 export interface IncrementalSnapshotData {
   source: IncrementalSource;
   /** Payload varies by source — kept as unknown for flexibility */
   data: Record<string, unknown>;
-  /** Position info for mouse/interaction events */
-  position?: { x: number; y: number; id: number };
-  /** Source node ID for interaction events */
-  id?: number;
 }
 
-/** Incremental source types (subset relevant for analytics) */
+/** Incremental source types — matches rrweb v2 IncrementalSource enum exactly */
 export enum IncrementalSource {
-  MouseMove = 0,
-  MouseInteraction = 1,
-  Scroll = 2,
-  ViewportResize = 3,
-  Input = 4,
-  TouchMove = 5,
-  MediaInteraction = 6,
-  StyleDeclaration = 7,
-  CanvasMutation = 8,
-  Font = 9,
-  Log = 10,
-  Drag = 11,
-  StyleMutation = 12,
-  Selection = 13,
-  AdoptedStyleSheet = 14,
-  CustomElementAnnotation = 15,
+  Mutation = 0,
+  MouseMove = 1,
+  MouseInteraction = 2,
+  Scroll = 3,
+  ViewportResize = 4,
+  Input = 5,
+  TouchMove = 6,
+  MediaInteraction = 7,
+  StyleSheetRule = 8,
+  CanvasMutation = 9,
+  Font = 10,
+  Log = 11,
+  Drag = 12,
+  StyleDeclaration = 13,
+  Selection = 14,
+  AdoptedStyleSheet = 15,
+  CustomElement = 16,
 }
 
 /** Mouse interaction types within MouseInteraction source */
