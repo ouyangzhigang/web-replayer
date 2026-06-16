@@ -253,7 +253,7 @@ export class WebReplayer {
     if (this.height) containerStyle.height = `${this.height}px`;
 
     return (
-      <Host>
+      <Host class={this.showStats ? 'with-stats' : ''}>
         <div class="replayer-wrapper">
           <div class="replay-container" style={containerStyle}>
             {/* rrweb Replayer renders into this container */}

@@ -1,3 +1,125 @@
+/* ── Global reset ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1a1a2e; color: #e0e0e0; min-height: 100vh; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0f0f1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+}
+
 #root { min-height: 100vh; }
+
+/* ── Playground layout ── */
+.playground {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  gap: 0;
+}
+
+/* ── Header ── */
+.playground-header {
+  padding: 24px 32px 16px;
+  text-align: center;
+}
+
+.playground-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.playground-header .subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* ── Controls bar ── */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 32px;
+  background: #16162a;
+  border-bottom: 1px solid #2a2a40;
+  flex-wrap: wrap;
+}
+
+.controls-bar label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.controls-bar select {
+  appearance: none;
+  background: #22223a;
+  color: #e0e0e0;
+  border: 1px solid #3a3a55;
+  border-radius: 6px;
+  padding: 6px 28px 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 8L9 4.5' stroke='%23888' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  transition: border-color 0.2s;
+}
+
+.controls-bar select:focus {
+  border-color: #4a90d9;
+}
+
+.controls-bar button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: #22223a;
+  color: #ccc;
+  border: 1px solid #3a3a55;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.controls-bar button:hover {
+  background: #2a2a4a;
+  color: #fff;
+  border-color: #555;
+}
+
+.controls-bar button:active {
+  transform: scale(0.97);
+}
+
+/* ── Main content ── */
+.playground-main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px;
+  gap: 16px;
+}
+
+/* ── Footer ── */
+.playground-footer {
+  padding: 16px 32px;
+  text-align: center;
+  border-top: 1px solid #2a2a40;
+}
+
+.playground-footer p {
+  font-size: 12px;
+  color: #666;
+}

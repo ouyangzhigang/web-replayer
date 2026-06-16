@@ -1,35 +1,51 @@
 :host {
-  display: block;
+  display: flex;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #1a1a1a;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: 8px;
   overflow: hidden;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   contain: layout style;
+}
+
+/* When stats sidebar is shown, flex horizontally */
+:host(.with-stats) {
+  flex-direction: row;
+}
+
+/* Without stats, stack vertically (replayer only) */
+:host(:not(.with-stats)) {
+  flex-direction: column;
 }
 
 .replayer-wrapper {
   position: relative;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  flex: 1;
+  min-width: 0;
 }
 
 .replay-container {
   position: relative;
+  flex: 1;
   min-height: 200px;
   overflow: hidden;
   background: #fff;
 }
+
+/* ── Loading state ── */
 
 .loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
+  min-height: 300px;
   padding: 2rem;
-  color: #666;
+  color: #888;
 }
 
 .spinner {
@@ -39,20 +55,22 @@
   border-top-color: #4a90d9;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+  margin-bottom: 12px;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
+/* ── Error state ── */
+
 .error-state {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
-  padding: 1.5rem;
+  min-height: 200px;
+  padding: 2rem;
   background: #fef2f2;
-  border: 1px solid #fca5a5;
   border-radius: 6px;
 }
 
