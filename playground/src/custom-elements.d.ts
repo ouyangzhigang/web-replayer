@@ -1,7 +1,5 @@
-/// <reference types="react" />
-/// <reference types="react-dom" />
-
-declare namespace JSX {
+/* React 19 uses React.JSX namespace, not global JSX */
+declare namespace React.JSX {
   interface IntrinsicElements {
     'web-replayer': any;
     'replayer-controls': any;
@@ -11,4 +9,10 @@ declare namespace JSX {
     'stats-chart': any;
     'wr-tooltip': any;
   }
+}
+
+/* Allow side-effect import of the Stencil component bundle */
+declare module 'web-replayer' {
+  const _: void;
+  export default _;
 }
