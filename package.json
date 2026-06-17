@@ -26,7 +26,7 @@
     "lint": "eslint src/ --ext .ts,.tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "clean": "rm -rf dist www .stencil",
-    "release": "pnpm build && git add -A && git commit -m 'chore: build for release' --allow-empty && npm version patch && npm publish"
+    "release": "npm version patch && npm publish"
   },
   "devDependencies": {
     "@stencil/core": "^4.22.0",
