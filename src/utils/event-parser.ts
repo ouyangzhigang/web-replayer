@@ -1,6 +1,13 @@
 /**
- * Event parser — validates and transforms raw decompressed JSON
- * into a clean RrwebEvent[] ready for replay and analytics.
+ * Event parser — normalizes input into a validated RrwebEvent[] ready for
+ * replay and analytics.
+ *
+ * Accepts three input formats:
+ *   - any[]      → direct array of event objects (zero parsing overhead)
+ *   - string     → JSON.parse then validate
+ *   - null/undef → returns empty array
+ *
+ * Filters out entries missing required fields (timestamp, type).
  */
 
 import { RrwebEvent, RrwebEventType, SessionMetadata } from '../types/events';
@@ -8,24 +15,37 @@ import { RrwebEvent, RrwebEventType, SessionMetadata } from '../types/events';
 const DEFAULT_METADATA: SessionMetadata = { href: '', width: 0, height: 0 };
 
 /**
- * Parse a decompressed JSON string into a validated event array.
- * Filters out entries missing required fields (timestamp, type).
+ * Normalize input into a validated event array.
+ *   - Array input: filter directly (no JSON.parse)
+ *   - String input: JSON.parse then filter
+ *   - null/undefined: return []
  */
-export function parseEvents(raw: string | null | undefined): RrwebEvent[] {
+export function parseEvents(raw: string | null | undefined | any[]): RrwebEvent[] {
   if (!raw) return [];
 
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(raw);
-  } catch (e) {
-    throw new Error(`Event parse error: invalid JSON — ${(e as Error).message}`);
+  // Direct array — zero JSON.parse overhead
+  if (Array.isArray(raw)) {
+    return raw.filter(isValidEventEntry) as RrwebEvent[];
   }
 
-  if (!Array.isArray(parsed)) {
-    throw new Error(`Event parse error: expected array, got ${typeof parsed}`);
+  // String — must be JSON-serialized
+  if (typeof raw === 'string') {
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch (e) {
+      throw new Error(`Event parse error: invalid JSON — ${(e as Error).message}`);
+    }
+
+    if (!Array.isArray(parsed)) {
+      throw new Error(`Event parse error: expected array, got ${typeof parsed}`);
+    }
+
+    return parsed.filter(isValidEventEntry) as RrwebEvent[];
   }
 
-  return parsed.filter(isValidEventEntry) as RrwebEvent[];
+  // Unrecognized type
+  return [];
 }
 
 function isValidEventEntry(entry: unknown): boolean {

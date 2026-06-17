@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-16T08:00:44",
+  "timestamp": "2026-06-17T09:07:57",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.43.5",
@@ -141,32 +141,32 @@
       "encapsulation": "shadow",
       "tag": "replayer-controls",
       "readme": "# web-replayer\n\n\n",
-      "docs": "",
+      "docs": "<replayer-controls> — Overlay-style playback controls for the web-replayer.\n\nFeatures:\n  - SVG icons for play/pause/replay with ripple effect\n  - Custom progress slider with fill bar + hover tooltip\n  - Speed pill buttons (one-click switching)\n  - Frame step (forward/backward)\n  - Skip-inactive toggle + fullscreen toggle\n  - Keyboard-friendly, accessible (ARIA)",
       "docsTags": [],
       "usage": {},
       "props": [
         {
-          "name": "currentTime",
-          "type": "number",
+          "name": "finished",
+          "type": "boolean",
           "complexType": {
-            "original": "number",
-            "resolved": "number",
+            "original": "boolean",
+            "resolved": "boolean",
             "references": {}
           },
           "mutable": false,
-          "attr": "current-time",
+          "attr": "finished",
           "reflectToAttr": false,
           "docs": "",
           "docsTags": [
             {
               "name": "default",
-              "text": "0"
+              "text": "false"
             }
           ],
-          "default": "0",
+          "default": "false",
           "values": [
             {
-              "type": "number"
+              "type": "boolean"
             }
           ],
           "optional": false,
@@ -193,6 +193,35 @@
             }
           ],
           "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "skipInactive",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "skip-inactive",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "true"
+            }
+          ],
+          "default": "true",
           "values": [
             {
               "type": "boolean"
@@ -243,8 +272,12 @@
           "mutable": false,
           "attr": "total-time",
           "reflectToAttr": false,
-          "docs": "",
+          "docs": "Total duration in ms — set once when data loads, passed as",
           "docsTags": [
+            {
+              "name": "Prop",
+              "text": "(low-frequency change)"
+            },
             {
               "name": "default",
               "text": "0"
@@ -262,8 +295,75 @@
           "setter": false
         }
       ],
-      "methods": [],
+      "methods": [
+        {
+          "name": "updateTimeDisplay",
+          "returns": {
+            "type": "Promise<void>",
+            "docs": ""
+          },
+          "complexType": {
+            "signature": "(currentTime: number, totalTime: number) => Promise<void>",
+            "parameters": [
+              {
+                "name": "currentTime",
+                "type": "number",
+                "docs": ""
+              },
+              {
+                "name": "totalTime",
+                "type": "number",
+                "docs": ""
+              }
+            ],
+            "references": {
+              "Promise": {
+                "location": "global",
+                "id": "global::Promise"
+              },
+              "HTMLInputElement": {
+                "location": "global",
+                "id": "global::HTMLInputElement"
+              },
+              "HTMLElement": {
+                "location": "global",
+                "id": "global::HTMLElement"
+              }
+            },
+            "return": "Promise<void>"
+          },
+          "signature": "updateTimeDisplay(currentTime: number, totalTime: number) => Promise<void>",
+          "parameters": [
+            {
+              "name": "currentTime",
+              "type": "number",
+              "docs": ""
+            },
+            {
+              "name": "totalTime",
+              "type": "number",
+              "docs": ""
+            }
+          ],
+          "docs": "",
+          "docsTags": []
+        }
+      ],
       "events": [
+        {
+          "event": "fullscreenToggle",
+          "detail": "void",
+          "bubbles": true,
+          "complexType": {
+            "original": "void",
+            "resolved": "void",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
         {
           "event": "playPause",
           "detail": "void",
@@ -293,12 +393,54 @@
           "docsTags": []
         },
         {
+          "event": "skipInactiveToggle",
+          "detail": "boolean",
+          "bubbles": true,
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
           "event": "speedChange",
           "detail": "number",
           "bubbles": true,
           "complexType": {
             "original": "number",
             "resolved": "number",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "stepBackward",
+          "detail": "void",
+          "bubbles": true,
+          "complexType": {
+            "original": "void",
+            "resolved": "void",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "stepForward",
+          "detail": "void",
+          "bubbles": true,
+          "complexType": {
+            "original": "void",
+            "resolved": "void",
             "references": {}
           },
           "cancelable": true,
@@ -572,6 +714,35 @@
       "usage": {},
       "props": [
         {
+          "name": "autoHideControls",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "auto-hide-controls",
+          "reflectToAttr": true,
+          "docs": "Auto-hide controls when mouse idle for a while. Default false.",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "false"
+            }
+          ],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
           "name": "autoPlay",
           "type": "boolean",
           "complexType": {
@@ -602,18 +773,21 @@
         },
         {
           "name": "data",
-          "type": "string",
+          "type": "any[] | string",
           "complexType": {
-            "original": "string",
-            "resolved": "string",
+            "original": "string | any[]",
+            "resolved": "any[] | string",
             "references": {}
           },
           "mutable": false,
           "attr": "data",
           "reflectToAttr": false,
-          "docs": "",
+          "docs": "Session data — accepts multiple formats:\n- Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64)\n- JSON-serialized string (JSON.stringify of an event array)\n- Raw event array (RrwebEvent[] or any[] with timestamp+type fields)\nAuto-detection picks the optimal path: arrays skip decompress+parse,\nJSON strings skip decompress, compressed strings go through full pipeline.",
           "docsTags": [],
           "values": [
+            {
+              "type": "any[]"
+            },
             {
               "type": "string"
             }
@@ -625,26 +799,55 @@
         },
         {
           "name": "height",
-          "type": "number | undefined",
+          "type": "string | undefined",
           "complexType": {
-            "original": "number",
-            "resolved": "number | undefined",
+            "original": "string",
+            "resolved": "string | undefined",
             "references": {}
           },
           "mutable": false,
           "attr": "height",
           "reflectToAttr": true,
-          "docs": "",
+          "docs": "Component height — accepts CSS values: \"888px\", \"60vh\", or bare number \"888\" (treated as px).",
           "docsTags": [],
           "values": [
             {
-              "type": "number"
+              "type": "string"
             },
             {
               "type": "undefined"
             }
           ],
           "optional": true,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "interact",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "interact",
+          "reflectToAttr": true,
+          "docs": "Enable user interaction with the replayed UI (clicks, inputs, scrolling).\nDefault false — replay is non-interactive for stability.\nWhen true, calls replayer.enableInteract() which sets pointer-events: auto\non the replay iframe. Note: enabling interaction may cause instability\n(e.g., navigating away via external links). Use with caution.",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "false"
+            }
+          ],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
           "required": false,
           "getter": false,
           "setter": false
@@ -689,7 +892,7 @@
           "mutable": false,
           "attr": "show-heatmap",
           "reflectToAttr": true,
-          "docs": "",
+          "docs": "Show heatmap overlay. Default false.",
           "docsTags": [
             {
               "name": "default",
@@ -718,7 +921,7 @@
           "mutable": false,
           "attr": "show-stats",
           "reflectToAttr": true,
-          "docs": "",
+          "docs": "Show stats panel. Default false.",
           "docsTags": [
             {
               "name": "default",
@@ -795,21 +998,50 @@
           "setter": false
         },
         {
-          "name": "width",
-          "type": "number | undefined",
+          "name": "unsafeAllowScripts",
+          "type": "boolean",
           "complexType": {
-            "original": "number",
-            "resolved": "number | undefined",
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "unsafe-allow-scripts",
+          "reflectToAttr": true,
+          "docs": "Allow scripts execution in the replay iframe. Default false for security.\nWhen true, rrweb creates iframe with sandbox=\"allow-same-origin allow-scripts\".\nWhen false, rrweb uses sandboxed iframe with only \"allow-same-origin\" (scripts blocked).\nThe \"Blocked script execution\" console warning when unsafeAllowScripts=false is expected —\nrrweb rebuilds the DOM via mutations, not by executing recorded scripts.",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "true"
+            }
+          ],
+          "default": "true",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "width",
+          "type": "string | undefined",
+          "complexType": {
+            "original": "string",
+            "resolved": "string | undefined",
             "references": {}
           },
           "mutable": false,
           "attr": "width",
           "reflectToAttr": true,
-          "docs": "",
+          "docs": "Component width — accepts CSS values: \"85%\", \"800px\", \"50vw\", or bare number \"800\" (treated as px).",
           "docsTags": [],
           "values": [
             {
-              "type": "number"
+              "type": "string"
             },
             {
               "type": "undefined"
@@ -1381,7 +1613,7 @@
       "path": "src/types/component-props.ts"
     },
     "src/types/component-props.ts::DecompressErrorDetail": {
-      "declaration": "export interface DecompressErrorDetail {\n  error: string;\n  rawInput: string;\n}",
+      "declaration": "export interface DecompressErrorDetail {\n  error: string;\n  rawInput: string | any[];\n}",
       "docstring": "",
       "path": "src/types/component-props.ts"
     },

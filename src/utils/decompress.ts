@@ -159,6 +159,7 @@ function bruteForceDecompress(input: string): string {
     ['lz-utf16', LZString.decompressFromUTF16],
     ['lz-base64', LZString.decompressFromBase64],
     ['lz-raw', LZString.decompress],
+    ['raw', (s) => s],
   ];
 
   for (const [, fn] of decompressors) {

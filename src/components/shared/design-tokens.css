@@ -1,0 +1,77 @@
+/**
+ * Design tokens — centralized CSS custom properties for all web-replayer components.
+ *
+ * Each component imports this via @import in its Shadow DOM CSS file.
+ * Stencil resolves @import at build time and inlines the tokens into
+ * each component's Shadow DOM style output.
+ */
+
+/* ── Brand / Primary Colors ── */
+:host {
+  --wr-color-primary: #4a90d9;
+  --wr-color-primary-hover: #3a7bc8;
+  --wr-color-primary-active: #2a6bb8;
+  --wr-color-primary-subtle: rgba(74, 144, 217, 0.15);
+
+  /* ── Neutral / Surface Colors ── */
+  --wr-color-bg-dark: #1e1e2e;
+  --wr-color-bg-dark-subtle: #2a2a3e;
+  --wr-color-bg-dark-hover: #33334d;
+  --wr-color-bg-light: #ffffff;
+  --wr-color-bg-light-subtle: #fafafa;
+  --wr-color-border-light: #e0e0e0;
+  --wr-color-border-dark: #444466;
+
+  /* ── Text Colors ── */
+  --wr-color-text-primary: #1a1a1a;
+  --wr-color-text-secondary: #666;
+  --wr-color-text-muted: #888;
+  --wr-color-text-dark: #ffffff;
+  --wr-color-text-dark-muted: #aaa;
+
+  /* ── Semantic / Status Colors ── */
+  --wr-color-error: #dc2626;
+  --wr-color-error-bg: #fef2f2;
+  --wr-color-success: #50c878;
+  --wr-color-warning: #f5a623;
+
+  /* ── Chart Colors ── */
+  --wr-color-chart-click: #4a90d9;
+  --wr-color-chart-scroll: #50c878;
+  --wr-color-chart-input: #f5a623;
+  --wr-color-chart-move: #9b9b9b;
+
+  /* ── Spacing Scale ── */
+  --wr-space-xs: 4px;
+  --wr-space-sm: 8px;
+  --wr-space-md: 12px;
+  --wr-space-lg: 16px;
+  --wr-space-xl: 24px;
+
+  /* ── Typography ── */
+  --wr-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wr-font-size-xs: 11px;
+  --wr-font-size-sm: 12px;
+  --wr-font-size-md: 13px;
+  --wr-font-size-lg: 14px;
+  --wr-font-size-xl: 16px;
+
+  /* ── Controls Bar ── */
+  --wr-controls-height: 44px;
+  --wr-controls-bg: #1e1e2e;
+  --wr-controls-gap: 12px;
+  --wr-controls-padding: 0 16px;
+
+  /* ── Animation ── */
+  --wr-transition-fast: 0.15s ease;
+  --wr-transition-normal: 0.2s ease;
+  --wr-transition-slow: 0.3s ease;
+  --wr-ripple-duration: 0.6s;
+
+  /* ── Radius ── */
+  --wr-radius-sm: 4px;
+  --wr-radius-md: 6px;
+  --wr-radius-lg: 8px;
+  --wr-radius-full: 50%;
+  --wr-radius-pill: 9999px;
+}

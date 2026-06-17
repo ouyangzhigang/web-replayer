@@ -10,8 +10,13 @@ export class StatsChart {
   @Prop() breakdown!: OperationTally[];
 
   private barColor(type: string): string {
-    const colors: Record<string, string> = { click: '#4a90d9', scroll: '#50c878', input: '#f5a623', mousemove: '#9b9b9b' };
-    return colors[type] ?? '#666';
+    const colors: Record<string, string> = {
+      click: 'var(--wr-color-chart-click)',
+      scroll: 'var(--wr-color-chart-scroll)',
+      input: 'var(--wr-color-chart-input)',
+      mousemove: 'var(--wr-color-chart-move)',
+    };
+    return colors[type] ?? 'var(--wr-color-text-muted)';
   }
 
   render() {

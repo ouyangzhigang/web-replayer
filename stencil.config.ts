@@ -4,15 +4,23 @@ export const config: Config = {
   namespace: 'WebReplayer',
   srcDir: 'src',
   outputTargets: [
-    { type: 'dist' },
-    { type: 'dist-custom-elements' },
+    { type: 'dist', },
+    {
+      type: 'dist-custom-elements',
+      customElementsExportBehavior: 'auto-define-custom-elements',
+      externalRuntime: false,
+    },
     { type: 'docs-readme' },
     { type: 'docs-json', file: 'docs/docs.json' },
+    // {
+    //   type: 'www',
+    //   serviceWorker: null, // disable service workers
+    // },
   ],
   extras: {
     experimentalScopedSlotChanges: true,
   },
   testing: {
-    testPath: '../src-tests',
+    testMatch: ['../src-tests/**/*'],
   },
 };

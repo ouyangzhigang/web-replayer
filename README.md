@@ -168,3 +168,11 @@ pnpm clean
 ## License
 
 MIT
+
+
+## Reference
+
+[rrweb](https://github.com/rrweb/rrweb)
+[Stencil](https://stenciljs.jikun.dev/docs/components/functional-components.html)
+[lz-string](https://github.com/rrweb/lz-string)
+[pako](https://github.com/rrweb/pako)

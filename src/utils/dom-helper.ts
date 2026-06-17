@@ -47,3 +47,21 @@ export function destroyReplayer(replayer: unknown): void {
     (replayer as { destroy: () => void }).destroy();
   }
 }
+
+
+// 1. 保存原生的 setAttribute 方法
+// const nativeSetAttribute = Element.prototype.setAttribute;
+
+// // 2. 重写 setAttribute 进行拦截
+// Element.prototype.setAttribute = function(name, value) {
+//   // 拦截 rrweb 创建的 iframe，并修改其 sandbox 属性
+//   if (name === 'sandbox' && value === 'allow-same-origin' && this.tagName === 'IFRAME') {
+//     // 方案 A：加上 allow-forms allow-popups 权限
+//     return nativeSetAttribute.call(this, name, 'allow-same-origin allow-forms allow-popups');
+    
+//     // 方案 B：如果你想完全移除 sandbox 限制，直接 return 不执行即可
+//     // return; 
+//   }
+//   // 其他情况按原生逻辑执行
+//   return nativeSetAttribute.call(this, name, value);
+// };

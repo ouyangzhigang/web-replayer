@@ -1,7 +1,9 @@
+@import '../shared/design-tokens.css';
+
 :host { position: absolute; z-index: 10; contain: layout style; }
-.tooltip { padding: 4px 8px; background: #333; color: #fff; font-size: 12px; border-radius: 4px; white-space: nowrap; pointer-events: none; }
+.tooltip { padding: var(--wr-space-xs) var(--wr-space-sm); background: #333; color: #fff; font-size: var(--wr-font-size-sm); border-radius: var(--wr-radius-sm); white-space: nowrap; pointer-events: none; }
 .tooltip-content { display: block; }
-.tooltip-top { transform: translateY(-100%); margin-bottom: 4px; }
-.tooltip-bottom { margin-top: 4px; }
-.tooltip-left { transform: translateX(-100%); margin-right: 4px; }
-.tooltip-right { margin-left: 4px; }
+.tooltip-top { transform: translateY(-100%); margin-bottom: var(--wr-space-xs); }
+.tooltip-bottom { margin-top: var(--wr-space-xs); }
+.tooltip-left { transform: translateX(-100%); margin-right: var(--wr-space-xs); }
+.tooltip-right { margin-left: var(--wr-space-xs); }

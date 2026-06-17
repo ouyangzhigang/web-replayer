@@ -1,8 +1,10 @@
+@import '../shared/design-tokens.css';
+
 :host { display: block; contain: layout style; }
-.chart { display: flex; flex-direction: column; gap: 8px; }
-.bar-row { display: flex; align-items: center; gap: 8px; }
-.bar-label { width: 70px; font-size: 12px; color: #555; text-align: right; font-variant-numeric: tabular-nums; }
-.bar-track { flex: 1; height: 16px; background: #e8e8e8; border-radius: 3px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 3px; background: var(--bar-color, #4a90d9); transition: width 0.4s ease; }
-.bar-value { width: 70px; font-size: 11px; color: #777; text-align: left; font-variant-numeric: tabular-nums; }
-.no-data { color: #999; font-size: 0.8rem; text-align: center; }
+.chart { display: flex; flex-direction: column; gap: var(--wr-space-sm); }
+.bar-row { display: flex; align-items: center; gap: var(--wr-space-sm); }
+.bar-label { width: 70px; font-size: var(--wr-font-size-sm); color: #555; text-align: right; font-variant-numeric: tabular-nums; }
+.bar-track { flex: 1; height: 16px; background: #e8e8e8; border-radius: var(--wr-radius-sm); overflow: hidden; }
+.bar-fill { height: 100%; border-radius: var(--wr-radius-sm); background: var(--bar-color, var(--wr-color-chart-click)); transition: width 0.4s ease; }
+.bar-value { width: 70px; font-size: var(--wr-font-size-xs); color: #777; text-align: left; font-variant-numeric: tabular-nums; }
+.no-data { color: var(--wr-color-text-muted); font-size: 0.8rem; text-align: center; }

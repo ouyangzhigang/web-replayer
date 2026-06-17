@@ -15,8 +15,8 @@ import {
 
 /** <web-replayer> component props */
 export interface WebReplayerProps {
-  /** LZ-String/pako compressed rrweb events string */
-  data: string;
+  /** Session data — compressed string, JSON string, or event array */
+  data: string | any[];
   /** Replay area width in pixels (auto-fits container if unset) */
   width?: number;
   /** Replay area height in pixels (auto-fits container if unset) */
@@ -80,5 +80,5 @@ export interface StatsReadyDetail {
 
 export interface DecompressErrorDetail {
   error: string;
-  rawInput: string;
+  rawInput: string | any[];
 }

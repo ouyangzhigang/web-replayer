@@ -23,23 +23,40 @@ export namespace Components {
          */
         "opacity": number;
     }
+    /**
+     * <replayer-controls> — Overlay-style playback controls for the web-replayer.
+     * Features:
+     *   - SVG icons for play/pause/replay with ripple effect
+     *   - Custom progress slider with fill bar + hover tooltip
+     *   - Speed pill buttons (one-click switching)
+     *   - Frame step (forward/backward)
+     *   - Skip-inactive toggle + fullscreen toggle
+     *   - Keyboard-friendly, accessible (ARIA)
+     */
     interface ReplayerControls {
         /**
-          * @default 0
+          * @default false
          */
-        "currentTime": number;
+        "finished": boolean;
         /**
           * @default false
          */
         "playing": boolean;
         /**
+          * @default true
+         */
+        "skipInactive": boolean;
+        /**
           * @default 1
          */
         "speed": number;
         /**
+          * Total duration in ms — set once when data loads, passed as
+          * @Prop (low-frequency change)
           * @default 0
          */
         "totalTime": number;
+        "updateTimeDisplay": (currentTime: number, totalTime: number) => Promise<void>;
     }
     interface StatsChart {
         "breakdown": OperationTally[];
@@ -61,13 +78,29 @@ export namespace Components {
     }
     interface WebReplayer {
         /**
+          * Auto-hide controls when mouse idle for a while. Default false.
+          * @default false
+         */
+        "autoHideControls": boolean;
+        /**
           * @default false
          */
         "autoPlay": boolean;
-        "data": string;
+        /**
+          * Session data — accepts multiple formats: - Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64) - JSON-serialized string (JSON.stringify of an event array) - Raw event array (RrwebEvent[] or any[] with timestamp+type fields) Auto-detection picks the optimal path: arrays skip decompress+parse, JSON strings skip decompress, compressed strings go through full pipeline.
+         */
+        "data": string | any[];
         "getAnalytics": () => Promise<AnalyticsData | null>;
         "getEvents": () => Promise<RrwebEvent[]>;
-        "height"?: number;
+        /**
+          * Component height — accepts CSS values: "888px", "60vh", or bare number "888" (treated as px).
+         */
+        "height"?: string;
+        /**
+          * Enable user interaction with the replayed UI (clicks, inputs, scrolling). Default false — replay is non-interactive for stability. When true, calls replayer.enableInteract() which sets pointer-events: auto on the replay iframe. Note: enabling interaction may cause instability (e.g., navigating away via external links). Use with caution.
+          * @default false
+         */
+        "interact": boolean;
         "pause": () => Promise<void>;
         "play": () => Promise<void>;
         "seek": (time: number) => Promise<void>;
@@ -76,10 +109,12 @@ export namespace Components {
          */
         "showControls": boolean;
         /**
+          * Show heatmap overlay. Default false.
           * @default false
          */
         "showHeatmap": boolean;
         /**
+          * Show stats panel. Default false.
           * @default false
          */
         "showStats": boolean;
@@ -91,7 +126,15 @@ export namespace Components {
           * @default 0
          */
         "startTime": number;
-        "width"?: number;
+        /**
+          * Allow scripts execution in the replay iframe. Default false for security. When true, rrweb creates iframe with sandbox="allow-same-origin allow-scripts". When false, rrweb uses sandboxed iframe with only "allow-same-origin" (scripts blocked). The "Blocked script execution" console warning when unsafeAllowScripts=false is expected — rrweb rebuilds the DOM via mutations, not by executing recorded scripts.
+          * @default true
+         */
+        "unsafeAllowScripts": boolean;
+        /**
+          * Component width — accepts CSS values: "85%", "800px", "50vw", or bare number "800" (treated as px).
+         */
+        "width"?: string;
     }
     interface WebStatsPanel {
         "events": RrwebEvent[];
@@ -131,7 +174,21 @@ declare global {
         "playPause": void;
         "seek": number;
         "speedChange": number;
+        "stepForward": void;
+        "stepBackward": void;
+        "fullscreenToggle": void;
+        "skipInactiveToggle": boolean;
     }
+    /**
+     * <replayer-controls> — Overlay-style playback controls for the web-replayer.
+     * Features:
+     *   - SVG icons for play/pause/replay with ripple effect
+     *   - Custom progress slider with fill bar + hover tooltip
+     *   - Speed pill buttons (one-click switching)
+     *   - Frame step (forward/backward)
+     *   - Skip-inactive toggle + fullscreen toggle
+     *   - Keyboard-friendly, accessible (ARIA)
+     */
     interface HTMLReplayerControlsElement extends Components.ReplayerControls, HTMLStencilElement {
         addEventListener<K extends keyof HTMLReplayerControlsElementEventMap>(type: K, listener: (this: HTMLReplayerControlsElement, ev: ReplayerControlsCustomEvent<HTMLReplayerControlsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -218,23 +275,43 @@ declare namespace LocalJSX {
          */
         "opacity"?: number;
     }
+    /**
+     * <replayer-controls> — Overlay-style playback controls for the web-replayer.
+     * Features:
+     *   - SVG icons for play/pause/replay with ripple effect
+     *   - Custom progress slider with fill bar + hover tooltip
+     *   - Speed pill buttons (one-click switching)
+     *   - Frame step (forward/backward)
+     *   - Skip-inactive toggle + fullscreen toggle
+     *   - Keyboard-friendly, accessible (ARIA)
+     */
     interface ReplayerControls {
         /**
-          * @default 0
+          * @default false
          */
-        "currentTime"?: number;
+        "finished"?: boolean;
+        "onFullscreenToggle"?: (event: ReplayerControlsCustomEvent<void>) => void;
         "onPlayPause"?: (event: ReplayerControlsCustomEvent<void>) => void;
         "onSeek"?: (event: ReplayerControlsCustomEvent<number>) => void;
+        "onSkipInactiveToggle"?: (event: ReplayerControlsCustomEvent<boolean>) => void;
         "onSpeedChange"?: (event: ReplayerControlsCustomEvent<number>) => void;
+        "onStepBackward"?: (event: ReplayerControlsCustomEvent<void>) => void;
+        "onStepForward"?: (event: ReplayerControlsCustomEvent<void>) => void;
         /**
           * @default false
          */
         "playing"?: boolean;
         /**
+          * @default true
+         */
+        "skipInactive"?: boolean;
+        /**
           * @default 1
          */
         "speed"?: number;
         /**
+          * Total duration in ms — set once when data loads, passed as
+          * @Prop (low-frequency change)
           * @default 0
          */
         "totalTime"?: number;
@@ -259,11 +336,27 @@ declare namespace LocalJSX {
     }
     interface WebReplayer {
         /**
+          * Auto-hide controls when mouse idle for a while. Default false.
+          * @default false
+         */
+        "autoHideControls"?: boolean;
+        /**
           * @default false
          */
         "autoPlay"?: boolean;
-        "data": string;
-        "height"?: number;
+        /**
+          * Session data — accepts multiple formats: - Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64) - JSON-serialized string (JSON.stringify of an event array) - Raw event array (RrwebEvent[] or any[] with timestamp+type fields) Auto-detection picks the optimal path: arrays skip decompress+parse, JSON strings skip decompress, compressed strings go through full pipeline.
+         */
+        "data": string | any[];
+        /**
+          * Component height — accepts CSS values: "888px", "60vh", or bare number "888" (treated as px).
+         */
+        "height"?: string;
+        /**
+          * Enable user interaction with the replayed UI (clicks, inputs, scrolling). Default false — replay is non-interactive for stability. When true, calls replayer.enableInteract() which sets pointer-events: auto on the replay iframe. Note: enabling interaction may cause instability (e.g., navigating away via external links). Use with caution.
+          * @default false
+         */
+        "interact"?: boolean;
         "onDecompressError"?: (event: WebReplayerCustomEvent<DecompressErrorDetail>) => void;
         "onHeatmapReady"?: (event: WebReplayerCustomEvent<HeatmapReadyDetail>) => void;
         "onReplayFinish"?: (event: WebReplayerCustomEvent<void>) => void;
@@ -277,10 +370,12 @@ declare namespace LocalJSX {
          */
         "showControls"?: boolean;
         /**
+          * Show heatmap overlay. Default false.
           * @default false
          */
         "showHeatmap"?: boolean;
         /**
+          * Show stats panel. Default false.
           * @default false
          */
         "showStats"?: boolean;
@@ -292,7 +387,15 @@ declare namespace LocalJSX {
           * @default 0
          */
         "startTime"?: number;
-        "width"?: number;
+        /**
+          * Allow scripts execution in the replay iframe. Default false for security. When true, rrweb creates iframe with sandbox="allow-same-origin allow-scripts". When false, rrweb uses sandboxed iframe with only "allow-same-origin" (scripts blocked). The "Blocked script execution" console warning when unsafeAllowScripts=false is expected — rrweb rebuilds the DOM via mutations, not by executing recorded scripts.
+          * @default true
+         */
+        "unsafeAllowScripts"?: boolean;
+        /**
+          * Component width — accepts CSS values: "85%", "800px", "50vw", or bare number "800" (treated as px).
+         */
+        "width"?: string;
     }
     interface WebStatsPanel {
         "events": RrwebEvent[];
@@ -319,9 +422,10 @@ declare namespace LocalJSX {
     }
     interface ReplayerControlsAttributes {
         "playing": boolean;
-        "currentTime": number;
-        "totalTime": number;
         "speed": number;
+        "skipInactive": boolean;
+        "finished": boolean;
+        "totalTime": number;
     }
     interface WebHeatmapAttributes {
         "type": HeatmapType;
@@ -329,15 +433,18 @@ declare namespace LocalJSX {
         "colorScheme": HeatmapColorScheme;
     }
     interface WebReplayerAttributes {
-        "data": string;
-        "width": number;
-        "height": number;
+        "data": string | any[];
+        "width": string;
+        "height": string;
         "autoPlay": boolean;
         "speed": number;
         "showControls": boolean;
         "showHeatmap": boolean;
         "showStats": boolean;
+        "autoHideControls": boolean;
         "startTime": number;
+        "unsafeAllowScripts": boolean;
+        "interact": boolean;
     }
     interface WebStatsPanelAttributes {
         "layout": StatsPanelLayout;
@@ -362,6 +469,16 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "heatmap-canvas": LocalJSX.IntrinsicElements["heatmap-canvas"] & JSXBase.HTMLAttributes<HTMLHeatmapCanvasElement>;
+            /**
+             * <replayer-controls> — Overlay-style playback controls for the web-replayer.
+             * Features:
+             *   - SVG icons for play/pause/replay with ripple effect
+             *   - Custom progress slider with fill bar + hover tooltip
+             *   - Speed pill buttons (one-click switching)
+             *   - Frame step (forward/backward)
+             *   - Skip-inactive toggle + fullscreen toggle
+             *   - Keyboard-friendly, accessible (ARIA)
+             */
             "replayer-controls": LocalJSX.IntrinsicElements["replayer-controls"] & JSXBase.HTMLAttributes<HTMLReplayerControlsElement>;
             "stats-chart": LocalJSX.IntrinsicElements["stats-chart"] & JSXBase.HTMLAttributes<HTMLStatsChartElement>;
             "web-heatmap": LocalJSX.IntrinsicElements["web-heatmap"] & JSXBase.HTMLAttributes<HTMLWebHeatmapElement>;
