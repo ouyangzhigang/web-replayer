@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-17T11:46:09",
+  "timestamp": "2026-06-17T11:51:02",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.43.5",
@@ -1613,7 +1613,7 @@
       "path": "src/types/component-props.ts"
     },
     "src/types/component-props.ts::DecompressErrorDetail": {
-      "declaration": "export interface DecompressErrorDetail {\n  error: string;\n  rawInput: string;\n}",
+      "declaration": "export interface DecompressErrorDetail {\n  error: string;\n  rawInput: string | any[];\n}",
       "docstring": "",
       "path": "src/types/component-props.ts"
     },
