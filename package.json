@@ -1,5 +1,5 @@
 {
-  "name": "web-replayer",
+  "name": "@lotus/web-replayer",
   "version": "0.0.1",
   "description": "Framework-agnostic Web Component for @lotus/web-recorder session replay with interaction heatmap and operation analytics",
   "type": "module",
@@ -25,7 +25,8 @@
     "test:watch": "vitest",
     "lint": "eslint src/ --ext .ts,.tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "clean": "rm -rf dist www .stencil"
+    "clean": "rm -rf dist www .stencil",
+    "release": "pnpm build && npm version patch && npm publish"
   },
   "devDependencies": {
     "@stencil/core": "^4.22.0",

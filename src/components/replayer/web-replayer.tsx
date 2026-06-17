@@ -171,9 +171,8 @@ export class WebReplayer {
 
   @Watch('interact')
   onInteractChange(interact: boolean) {
-    if (this.replayer) {
-      interact ? this.replayer.enableInteract() : this.replayer.disableInteract();
-    }
+    // When interact prop is set externally, sync sandbox + pointer-events
+    this.syncInteract(!interact);
   }
 
   @Watch('showHeatmap')
@@ -224,10 +223,10 @@ export class WebReplayer {
     this.currentTime = startTime;
     this.playing = true;
     this.finished = false;
+    this.syncInteract(true);
     this.startTimePolling();
     this.updateControlsDirect(startTime, this.totalTime);
     this.replayStart.emit();
-    this.interact = false;
   }
 
   @Method()
@@ -235,9 +234,9 @@ export class WebReplayer {
     if (!this.replayer) return;
     this.replayer.pause();
     this.playing = false;
+    this.syncInteract(false);
     this.stopTimePolling();
     this.replayPause.emit();
-    this.interact = true;
   }
 
   @Method()
@@ -253,7 +252,6 @@ export class WebReplayer {
       this.replayer.pause();
     }
     this.finished = false;
-    this.interact = !this.playing;
     this.replayTimeUpdate.emit({ currentTime: time, totalTime: this.totalTime });
     this.updateControlsDirect(time, this.totalTime);
   }
@@ -269,6 +267,67 @@ export class WebReplayer {
   }
 
   // ── Private Methods ──
+
+  /**
+   * Sync interact state with playing state:
+   *   - Playing → disable interact (replay must be stable, no user interaction)
+   *   - Paused/Finished → enable interact (user can explore the replayed UI)
+   *
+   * Key insight: "interact" means VISUAL exploration (scroll, hover, CSS effects),
+   * NOT executing the replayed page's JavaScript. The replayed page's JS runs in
+   * a sandboxed iframe and may crash when trying to communicate with the parent
+   * window (postMessage, accessing parent DOM, etc.).
+   *
+   * Strategy:
+   *   - When enabling interact (paused/finished): set pointer-events: auto AND
+   *     remove 'allow-scripts' from iframe sandbox. This allows visual interaction
+   *     (scrolling, hover effects, CSS transitions) but prevents JS event handlers
+   *     from firing and crashing inside the restricted sandbox.
+   *   - When disabling interact (playing): set pointer-events: none AND restore
+   *     'allow-scripts' to sandbox if unsafeAllowScripts is true. rrweb needs
+   *     scripts during playback for canvas replay and DOM mutation processing.
+   *
+   * Note: Changing the sandbox attribute on an existing iframe does NOT reload it
+   * in modern browsers (Chrome, Firefox, Safari). The new restrictions apply
+   * immediately to the already-loaded content.
+   */
+  private syncInteract(playing: boolean) {
+    const shouldInteract = !playing;
+    if (this.interact === shouldInteract) return; // No change needed
+    this.interact = shouldInteract;
+
+    if (!this.replayer) return;
+
+    const iframe = this.replayer.iframe as HTMLIFrameElement | null;
+    if (!iframe) return;
+
+    if (shouldInteract) {
+      // Enable visual interaction + block JS execution
+      this.replayer.enableInteract();
+      // Remove allow-scripts from sandbox to prevent JS errors from user clicks
+      // The replayed page's JS handlers are sandboxed and can't safely communicate
+      // with the parent window — clicking triggers them → crash.
+      // Without allow-scripts, clicks still reach the iframe for visual effects
+      // (hover, scroll, CSS) but JS handlers won't execute.
+      const sandbox = iframe.getAttribute('sandbox') || '';
+      const safeSandbox = sandbox
+        .split(' ')
+        .filter(token => token !== 'allow-scripts')
+        .join(' ')
+        .trim();
+      iframe.setAttribute('sandbox', safeSandbox || 'allow-same-origin');
+    } else {
+      // Disable interaction + restore JS for playback
+      this.replayer.disableInteract();
+      // Re-add allow-scripts if configured, so rrweb can replay canvas/mutations
+      if (this.unsafeAllowScripts) {
+        const sandbox = iframe.getAttribute('sandbox') || '';
+        if (!sandbox.includes('allow-scripts')) {
+          iframe.setAttribute('sandbox', sandbox + ' allow-scripts');
+        }
+      }
+    }
+  }
 
   /**
    * Process session data — auto-detects format and picks the optimal path:
@@ -336,6 +395,7 @@ export class WebReplayer {
       this.totalTime = lastEvent.timestamp - events[0].timestamp;
       this.currentTime = 0;
       this.playing = false;
+      this.syncInteract(false);
       this.viewportWidth = metadata.width;
       this.viewportHeight = metadata.height;
 
@@ -381,33 +441,37 @@ export class WebReplayer {
     this.startResizeObserver(container as HTMLElement);
 
     // Apply initial interact state
-    if (this.interact) {
-      this.replayer.enableInteract();
-    }
+    // syncInteract handles both enableInteract/disableInteract AND sandbox management
+    this.syncInteract(this.playing);
 
     // Listen for playback finish
     this.replayer.on('finish', () => {
       this.playing = false;
       this.finished = true;
+      this.syncInteract(false);
       this.currentTime = this.totalTime;
       this.stopTimePolling();
       this.updateControlsDirect(this.totalTime, this.totalTime);
       this.replayFinish.emit();
-      this.interact = true;
+      console.info('Replayer finished');
     });
 
     // Auto-play if configured
     if (this.autoPlay) {
-      this.replayer.play();
+      // Start from startTime if specified, otherwise from beginning
+      const startOffset = this.startTime > 0 ? this.startTime : 0;
+      this.replayer.play(startOffset);
+      this.currentTime = startOffset;
       this.playing = true;
+      this.syncInteract(true);
       this.startTimePolling();
+      this.updateControlsDirect(startOffset, this.totalTime);
       this.replayStart.emit();
-      this.interact = false;
-    }
-
-    // Seek to startTime if specified
-    if (this.startTime > 0) {
+    } else if (this.startTime > 0) {
+      // Not auto-playing — just seek to startTime without starting playback
+      // Use play() + immediate pause() to seek while paused
       this.replayer.play(this.startTime);
+      this.replayer.pause();
       this.currentTime = this.startTime;
       this.updateControlsDirect(this.startTime, this.totalTime);
     }

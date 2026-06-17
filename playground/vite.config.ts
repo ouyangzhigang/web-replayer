@@ -22,7 +22,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 4000,
+    port: 3333,
     open: true,
     // Allow Vite to serve files from parent project's dist/ directory
     fs: {

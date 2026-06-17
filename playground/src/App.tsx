@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DEMO_DATA_URI, DEMO_DATA_UTF16, DEMO_DATA_RAW } from './demo-data';
+import { DEMO_DATA_URI, DEMO_DATA_UTF16, DEMO_DATA_RAW, DEMO_DATA_VALUE } from './demo-data';
 
-type DataFormat = 'uri-safe' | 'utf-16' | 'raw';
-const DATA_MAP: Record<DataFormat, string> = {
+type DataFormat = 'uri-safe' | 'utf-16' | 'raw' | 'value';
+const DATA_MAP: Record<DataFormat, string | any[]> = {
   'uri-safe': DEMO_DATA_URI,
   'utf-16': DEMO_DATA_UTF16,
-  raw: DEMO_DATA_RAW,
+  raw: DEMO_DATA_RAW as string,
+  value: DEMO_DATA_VALUE as any,
 };
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
     (el as any).showHeatmap = showHeatmap;
     (el as any).showStats = showStats;
     (el as any).autoPlay = autoPlay;
+    (el as any).startTime = 1000;
   }, [dataFormat, speed, showHeatmap, showStats, autoPlay]);
 
   return (
@@ -43,6 +45,7 @@ function App() {
             <option value="uri-safe">LZ-String URI-safe</option>
             <option value="utf-16">LZ-String UTF-16</option>
             <option value="raw">Raw JSON</option>
+            <option value="value">Value array</option>
           </select>
         </label>
         <button onClick={() => setShowHeatmap(!showHeatmap)}>{showHeatmap ? '✓' : '○'} Heatmap</button>
