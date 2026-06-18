@@ -39,6 +39,11 @@ export namespace Components {
          */
         "finished": boolean;
         /**
+          * Whether the parent component is currently in fullscreen mode
+          * @default false
+         */
+        "fullscreen": boolean;
+        /**
           * @default false
          */
         "playing": boolean;
@@ -90,6 +95,11 @@ export namespace Components {
           * Session data — accepts multiple formats: - Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64) - JSON-serialized string (JSON.stringify of an event array) - Raw event array (RrwebEvent[] or any[] with timestamp+type fields) Auto-detection picks the optimal path: arrays skip decompress+parse, JSON strings skip decompress, compressed strings go through full pipeline.
          */
         "data": string | any[];
+        /**
+          * Maximum scale ratio in fullscreen mode (default 1.15). Prevents small recorded pages from being blown up too large. When the contain-mode scale exceeds this ratio, the replay is capped at original size × fullscreenMaxRatio and centered in the container. Only applies in fullscreen — non-fullscreen scaling is unchanged.
+          * @default 1.15
+         */
+        "fullscreenMaxRatio": number;
         "getAnalytics": () => Promise<AnalyticsData | null>;
         "getEvents": () => Promise<RrwebEvent[]>;
         /**
@@ -290,6 +300,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "finished"?: boolean;
+        /**
+          * Whether the parent component is currently in fullscreen mode
+          * @default false
+         */
+        "fullscreen"?: boolean;
         "onFullscreenToggle"?: (event: ReplayerControlsCustomEvent<void>) => void;
         "onPlayPause"?: (event: ReplayerControlsCustomEvent<void>) => void;
         "onSeek"?: (event: ReplayerControlsCustomEvent<number>) => void;
@@ -348,6 +363,11 @@ declare namespace LocalJSX {
           * Session data — accepts multiple formats: - Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64) - JSON-serialized string (JSON.stringify of an event array) - Raw event array (RrwebEvent[] or any[] with timestamp+type fields) Auto-detection picks the optimal path: arrays skip decompress+parse, JSON strings skip decompress, compressed strings go through full pipeline.
          */
         "data": string | any[];
+        /**
+          * Maximum scale ratio in fullscreen mode (default 1.15). Prevents small recorded pages from being blown up too large. When the contain-mode scale exceeds this ratio, the replay is capped at original size × fullscreenMaxRatio and centered in the container. Only applies in fullscreen — non-fullscreen scaling is unchanged.
+          * @default 1.15
+         */
+        "fullscreenMaxRatio"?: number;
         /**
           * Component height — accepts CSS values: "888px", "60vh", or bare number "888" (treated as px).
          */
@@ -425,6 +445,7 @@ declare namespace LocalJSX {
         "speed": number;
         "skipInactive": boolean;
         "finished": boolean;
+        "fullscreen": boolean;
         "totalTime": number;
     }
     interface WebHeatmapAttributes {
@@ -442,6 +463,7 @@ declare namespace LocalJSX {
         "showHeatmap": boolean;
         "showStats": boolean;
         "autoHideControls": boolean;
+        "fullscreenMaxRatio": number;
         "startTime": number;
         "unsafeAllowScripts": boolean;
         "interact": boolean;

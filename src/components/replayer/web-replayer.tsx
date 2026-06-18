@@ -74,6 +74,13 @@ export class WebReplayer {
   @Prop({ reflect: true }) showStats = false;
   /** Auto-hide controls when mouse idle for a while. Default false. */
   @Prop({ reflect: true }) autoHideControls = false;
+  /** Maximum scale ratio in fullscreen mode (default 1.15).
+   *  Prevents small recorded pages from being blown up too large.
+   *  When the contain-mode scale exceeds this ratio, the replay is
+   *  capped at original size × fullscreenMaxRatio and centered in the container.
+   *  Only applies in fullscreen — non-fullscreen scaling is unchanged.
+   */
+  @Prop({ reflect: true }) fullscreenMaxRatio = 1.15;
   @Prop() startTime = 0;
   /** Allow scripts execution in the replay iframe. Default false for security.
    *  When true, rrweb creates iframe with sandbox="allow-same-origin allow-scripts".
@@ -101,6 +108,7 @@ export class WebReplayer {
   @State() controlsVisible = true;
   @State() keyboardFocus = false;
   @State() skipInactive = true;
+  @State() isFullscreen = false;
 
   // ── Internal (NOT @State — avoid re-render) ──
   private replayer: Replayer | null = null;
@@ -167,6 +175,11 @@ export class WebReplayer {
     if (this.replayer) {
       this.replayer.setConfig({ speed: newSpeed });
     }
+  }
+
+  @Watch('fullscreenMaxRatio')
+  onFullscreenMaxRatioChange() {
+    this.reScaleReplayer();
   }
 
   @Watch('interact')
@@ -528,10 +541,9 @@ export class WebReplayer {
    * Scale the rrweb wrapper/iframe to fit the replay container while preserving
    * the original aspect ratio. The replay content is centered within the container.
    *
-   * Strategy: use CSS transform: scale() on the rrweb wrapper element, and set
-   * its width/height to the original viewport dimensions. The scale factor is
-   * computed so the content fills the container in one dimension and is centered
-   * in the other.
+   * In fullscreen mode, the scale factor is capped at `fullscreenMaxRatio` to
+   * prevent small recorded pages from being blown up too large. When the cap
+   * kicks in, the replay is centered in the remaining space.
    */
   private scaleReplayerToContainer(container: HTMLElement) {
     const rrwebWrapper = container.querySelector('.replayer-wrapper') as HTMLElement;
@@ -553,10 +565,15 @@ export class WebReplayer {
       rrwebIframe.style.height = `${this.viewportHeight}px`;
     }
 
-    // Compute scale to fit within container (contain mode: no cropping)
+    // Compute contain-mode scale (fill as much as possible without cropping)
     const scaleX = containerWidth / this.viewportWidth;
     const scaleY = containerHeight / this.viewportHeight;
-    const scale = Math.min(scaleX, scaleY);
+    const containScale = Math.min(scaleX, scaleY);
+
+    // In fullscreen, cap the scale at fullscreenMaxRatio to prevent excessive enlargement
+    const isFullscreen = document.fullscreenElement === this.host;
+    const maxScale = isFullscreen ? this.fullscreenMaxRatio : Infinity;
+    const scale = Math.min(containScale, maxScale);
 
     rrwebWrapper.style.transform = `scale(${scale})`;
     rrwebWrapper.style.transformOrigin = '0 0';
@@ -581,6 +598,8 @@ export class WebReplayer {
     });
     this.resizeObserver.observe(container);
     if (viewport) this.resizeObserver.observe(viewport);
+    // Listen for fullscreen changes to re-scale (cap logic differs in fullscreen)
+    document.addEventListener('fullscreenchange', this.onFullscreenChange);
   }
 
   private stopResizeObserver() {
@@ -588,7 +607,21 @@ export class WebReplayer {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
     }
+    document.removeEventListener('fullscreenchange', this.onFullscreenChange);
   }
+
+  /** Re-scale the replayer — used when fullscreenMaxRatio changes while replay is active */
+  private reScaleReplayer() {
+    const container = this.host.shadowRoot?.querySelector('.replay-container') as HTMLElement;
+    if (container) this.scaleReplayerToContainer(container);
+  }
+
+  private onFullscreenChange = () => {
+    // Fullscreen toggle may not immediately trigger ResizeObserver
+    // (especially exit fullscreen), so explicitly re-scale
+    this.isFullscreen = document.fullscreenElement === this.host;
+    this.reScaleReplayer();
+  };
 
   // ── Mouse Idle Detection (auto-hide controls) ──
 
@@ -810,6 +843,7 @@ export class WebReplayer {
               speed={this.speed}
               skipInactive={this.skipInactive}
               finished={this.finished}
+              fullscreen={this.isFullscreen}
               totalTime={this.totalTime}
               onPlayPause={() => {
                 if (this.finished) {

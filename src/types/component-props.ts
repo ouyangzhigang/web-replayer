@@ -17,10 +17,10 @@ import {
 export interface WebReplayerProps {
   /** Session data — compressed string, JSON string, or event array */
   data: string | any[];
-  /** Replay area width in pixels (auto-fits container if unset) */
-  width?: number;
-  /** Replay area height in pixels (auto-fits container if unset) */
-  height?: number;
+  /** Component width — CSS value ("85%", "800px") or bare number ("800" → 800px) */
+  width?: string;
+  /** Component height — CSS value ("888px", "60vh") or bare number ("888" → 888px) */
+  height?: string;
   /** Auto-play on data load */
   autoPlay?: boolean;
   /** Playback speed multiplier (1 = normal) */
@@ -33,6 +33,19 @@ export interface WebReplayerProps {
   showStats?: boolean;
   /** Jump to specific timestamp on load (ms) */
   startTime?: number;
+  /** Auto-hide controls bar when mouse is idle during playback */
+  autoHideControls?: boolean;
+  /** Maximum scale ratio in fullscreen mode (default 1.15).
+   *  Prevents small recorded pages from being blown up too large.
+   *  When the contain-mode scale exceeds this ratio, the replay is
+   *  capped at original size × fullscreenMaxRatio and centered.
+   *  Only applies in fullscreen — non-fullscreen scaling is unchanged.
+   */
+  fullscreenMaxRatio?: number;
+  /** Allow scripts execution in the replay iframe (default true) */
+  unsafeAllowScripts?: boolean;
+  /** Enable user interaction with the replayed UI after playback (default false) */
+  interact?: boolean;
 }
 
 /** <web-heatmap> component props */

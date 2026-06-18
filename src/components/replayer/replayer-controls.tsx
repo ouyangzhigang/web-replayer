@@ -25,6 +25,8 @@ export class ReplayerControls {
   @Prop() speed = 1;
   @Prop() skipInactive = true;
   @Prop() finished = false;
+  /** Whether the parent component is currently in fullscreen mode */
+  @Prop() fullscreen = false;
   /** Total duration in ms — set once when data loads, passed as @Prop (low-frequency change) */
   @Prop() totalTime = 0;
 
@@ -103,9 +105,19 @@ export class ReplayerControls {
   }
 
   private renderFullscreenIcon() {
+    // ↗↗ — expand arrows pointing outward (enter fullscreen)
     return (
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
+      </svg>
+    );
+  }
+
+  private renderExitFullscreenIcon() {
+    // ↙↙ — shrink arrows pointing inward (exit fullscreen)
+    return (
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
       </svg>
     );
   }
@@ -334,9 +346,9 @@ export class ReplayerControls {
         {/* Fullscreen toggle */}
         <button class="toggle-btn fullscreen-btn"
           onClick={this.handleFullscreenToggle}
-          aria-label="Fullscreen"
-          title="Fullscreen">
-          <div class="btn-icon">{this.renderFullscreenIcon()}</div>
+          aria-label={this.fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+          title={this.fullscreen ? 'Exit fullscreen' : 'Fullscreen'}>
+          <div class="btn-icon">{this.fullscreen ? this.renderExitFullscreenIcon() : this.renderFullscreenIcon()}</div>
         </button>
 
         {/* Screen reader live region */}

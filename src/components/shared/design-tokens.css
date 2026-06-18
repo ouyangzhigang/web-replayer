@@ -22,6 +22,9 @@
   --wr-color-border-light: #e0e0e0;
   --wr-color-border-dark: #444466;
 
+  /* ── Replay Area ── */
+  --wr-color-replay-bg: transparent;
+
   /* ── Text Colors ── */
   --wr-color-text-primary: #1a1a1a;
   --wr-color-text-secondary: #666;

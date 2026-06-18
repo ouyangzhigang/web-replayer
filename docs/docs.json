@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-17T12:12:18",
+  "timestamp": "2026-06-18T05:59:56",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.43.5",
@@ -10,7 +10,7 @@
       "filePath": "src/components/heatmap/heatmap-canvas.tsx",
       "encapsulation": "shadow",
       "tag": "heatmap-canvas",
-      "readme": "# web-heatmap\r\n\r\n\r\n\r",
+      "readme": "# web-heatmap\n\n\n",
       "docs": "",
       "docsTags": [],
       "usage": {},
@@ -140,7 +140,7 @@
       "filePath": "src/components/replayer/replayer-controls.tsx",
       "encapsulation": "shadow",
       "tag": "replayer-controls",
-      "readme": "# web-replayer\r\n\r\n\r\n\r",
+      "readme": "# web-replayer\n\n\n",
       "docs": "<replayer-controls> — Overlay-style playback controls for the web-replayer.\n\nFeatures:\n  - SVG icons for play/pause/replay with ripple effect\n  - Custom progress slider with fill bar + hover tooltip\n  - Speed pill buttons (one-click switching)\n  - Frame step (forward/backward)\n  - Skip-inactive toggle + fullscreen toggle\n  - Keyboard-friendly, accessible (ARIA)",
       "docsTags": [],
       "usage": {},
@@ -157,6 +157,35 @@
           "attr": "finished",
           "reflectToAttr": false,
           "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "false"
+            }
+          ],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "fullscreen",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "fullscreen",
+          "reflectToAttr": false,
+          "docs": "Whether the parent component is currently in fullscreen mode",
           "docsTags": [
             {
               "name": "default",
@@ -468,7 +497,7 @@
       "filePath": "src/components/stats-panel/stats-chart.tsx",
       "encapsulation": "shadow",
       "tag": "stats-chart",
-      "readme": "# web-stats-panel\r\n\r\n\r\n\r",
+      "readme": "# web-stats-panel\n\n\n",
       "docs": "",
       "docsTags": [],
       "usage": {},
@@ -524,7 +553,7 @@
       "filePath": "src/components/heatmap/web-heatmap.tsx",
       "encapsulation": "shadow",
       "tag": "web-heatmap",
-      "readme": "# web-heatmap\r\n\r\n\r\n\r",
+      "readme": "# web-heatmap\n\n\n",
       "docs": "",
       "docsTags": [],
       "usage": {},
@@ -708,7 +737,7 @@
       "filePath": "src/components/replayer/web-replayer.tsx",
       "encapsulation": "shadow",
       "tag": "web-replayer",
-      "readme": "# web-replayer\r\n\r\n\r\n\r",
+      "readme": "# web-replayer\n\n\n",
       "docs": "",
       "docsTags": [],
       "usage": {},
@@ -794,6 +823,35 @@
           ],
           "optional": false,
           "required": true,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "fullscreenMaxRatio",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "fullscreen-max-ratio",
+          "reflectToAttr": true,
+          "docs": "Maximum scale ratio in fullscreen mode (default 1.15).\nPrevents small recorded pages from being blown up too large.\nWhen the contain-mode scale exceeds this ratio, the replay is\ncapped at original size × fullscreenMaxRatio and centered in the container.\nOnly applies in fullscreen — non-fullscreen scaling is unchanged.",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "1.15"
+            }
+          ],
+          "default": "1.15",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
           "getter": false,
           "setter": false
         },
@@ -1367,7 +1425,7 @@
       "filePath": "src/components/stats-panel/web-stats-panel.tsx",
       "encapsulation": "shadow",
       "tag": "web-stats-panel",
-      "readme": "# web-stats-panel\r\n\r\n\r\n\r",
+      "readme": "# web-stats-panel\n\n\n",
       "docs": "",
       "docsTags": [],
       "usage": {},
@@ -1613,7 +1671,7 @@
       "path": "src/types/component-props.ts"
     },
     "src/types/component-props.ts::DecompressErrorDetail": {
-      "declaration": "export interface DecompressErrorDetail {\n  error: string;\n  rawInput: string;\n}",
+      "declaration": "export interface DecompressErrorDetail {\n  error: string;\n  rawInput: string | any[];\n}",
       "docstring": "",
       "path": "src/types/component-props.ts"
     },

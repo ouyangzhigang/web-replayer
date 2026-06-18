@@ -10,6 +10,7 @@
   border: 1px solid var(--wr-color-primary);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   contain: layout style;
+  background: transparent;
 }
 
 /* When stats sidebar is shown, flex horizontally */
@@ -35,7 +36,7 @@
   flex: 1;
   min-width: 0;
   animation: slide-up var(--wr-transition-slow);
-  background: rgba(0, 0, 0, 0.78);
+  background: var(--wr-color-replay-bg);
 }
 
 .replay-container {
@@ -43,7 +44,7 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.78);
+  background: var(--wr-color-replay-bg);
   contain: content;
 }
 
@@ -140,3 +141,14 @@
 }
 
 .retry-btn:hover { background: var(--wr-color-primary-hover); }
+
+/* ── Fullscreen mode ── */
+
+:host(:fullscreen) {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
