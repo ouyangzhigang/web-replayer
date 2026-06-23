@@ -4,13 +4,13 @@
   display: flex;
   font-family: var(--wr-font-family);
   color: var(--wr-color-text-primary);
-  background: var(--wr-color-bg-light);
-  border-radius: var(--wr-radius-lg);
-  overflow: hidden;
-  border: 1px solid var(--wr-color-primary);
+  /* background: var(--wr-color-bg-light); */
+  /* border-radius: var(--wr-radius-lg); */
+  /* border: 1px solid var(--wr-color-primary); */
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   contain: layout style;
   background: transparent;
+  overflow: hidden;
 }
 
 /* When stats sidebar is shown, flex horizontally */

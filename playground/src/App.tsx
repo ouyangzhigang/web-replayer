@@ -62,7 +62,7 @@ function App() {
       </nav>
       <main className="playground-main">
         {/* Use ref to set props directly as JS properties — bypasses attribute parsing */}
-        <web-replayer ref={replayerRef} width="85%" height="888" showStats={true} interact={true} />
+        <web-replayer ref={replayerRef} width="85%" height="888" showControls={true} showStats={true} interact={true} />
       </main>
       <footer className="playground-footer">
         <p>Switch data format to test auto-detection | Toggle heatmap/stats overlays | Adjust speed</p>
