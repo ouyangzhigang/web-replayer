@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-24T03:19:40",
+  "timestamp": "2026-06-24T12:27:56",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.43.5",
@@ -1305,6 +1305,27 @@
           "docsTags": []
         },
         {
+          "event": "replayFullscreenChange",
+          "detail": "ReplayFullscreenChangeDetail",
+          "bubbles": true,
+          "complexType": {
+            "original": "ReplayFullscreenChangeDetail",
+            "resolved": "ReplayFullscreenChangeDetail",
+            "references": {
+              "ReplayFullscreenChangeDetail": {
+                "location": "import",
+                "path": "../../types/component-props",
+                "id": "src/types/component-props.ts::ReplayFullscreenChangeDetail",
+                "referenceLocation": "ReplayFullscreenChangeDetail"
+              }
+            }
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "",
+          "docsTags": []
+        },
+        {
           "event": "replayPause",
           "detail": "void",
           "bubbles": true,
@@ -1672,6 +1693,11 @@
     },
     "src/types/component-props.ts::DecompressErrorDetail": {
       "declaration": "export interface DecompressErrorDetail {\n  error: string;\n  rawInput: string | any[];\n}",
+      "docstring": "",
+      "path": "src/types/component-props.ts"
+    },
+    "src/types/component-props.ts::ReplayFullscreenChangeDetail": {
+      "declaration": "export interface ReplayFullscreenChangeDetail {\n  /** Whether the <web-replayer> host is currently in fullscreen mode */\n  isFullscreen: boolean;\n}",
       "docstring": "",
       "path": "src/types/component-props.ts"
     },

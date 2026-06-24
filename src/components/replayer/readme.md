@@ -26,16 +26,17 @@
 
 ## Events
 
-| Event              | Description | Type                                  |
-| ------------------ | ----------- | ------------------------------------- |
-| `decompressError`  |             | `CustomEvent<DecompressErrorDetail>`  |
-| `heatmapReady`     |             | `CustomEvent<HeatmapReadyDetail>`     |
-| `replayFinish`     |             | `CustomEvent<void>`                   |
-| `replayPause`      |             | `CustomEvent<void>`                   |
-| `replayReady`      |             | `CustomEvent<ReplayReadyDetail>`      |
-| `replayStart`      |             | `CustomEvent<void>`                   |
-| `replayTimeUpdate` |             | `CustomEvent<ReplayTimeUpdateDetail>` |
-| `statsReady`       |             | `CustomEvent<StatsReadyDetail>`       |
+| Event                    | Description | Type                                        |
+| ------------------------ | ----------- | ------------------------------------------- |
+| `decompressError`        |             | `CustomEvent<DecompressErrorDetail>`        |
+| `heatmapReady`           |             | `CustomEvent<HeatmapReadyDetail>`           |
+| `replayFinish`           |             | `CustomEvent<void>`                         |
+| `replayFullscreenChange` |             | `CustomEvent<ReplayFullscreenChangeDetail>` |
+| `replayPause`            |             | `CustomEvent<void>`                         |
+| `replayReady`            |             | `CustomEvent<ReplayReadyDetail>`            |
+| `replayStart`            |             | `CustomEvent<void>`                         |
+| `replayTimeUpdate`       |             | `CustomEvent<ReplayTimeUpdateDetail>`       |
+| `statsReady`             |             | `CustomEvent<StatsReadyDetail>`             |
 
 
 ## Methods

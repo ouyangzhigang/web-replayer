@@ -7,10 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { AnalyticsData, HeatmapColorScheme, HeatmapData, HeatmapType, OperationTally, StatsMetric, StatsPanelLayout } from "./types/analytics";
 import { RrwebEvent } from "./types/events";
-import { DecompressErrorDetail, HeatmapReadyDetail, ReplayReadyDetail, ReplayTimeUpdateDetail, StatsReadyDetail } from "./types/component-props";
+import { DecompressErrorDetail, HeatmapReadyDetail, ReplayFullscreenChangeDetail, ReplayReadyDetail, ReplayTimeUpdateDetail, StatsReadyDetail } from "./types/component-props";
 export { AnalyticsData, HeatmapColorScheme, HeatmapData, HeatmapType, OperationTally, StatsMetric, StatsPanelLayout } from "./types/analytics";
 export { RrwebEvent } from "./types/events";
-export { DecompressErrorDetail, HeatmapReadyDetail, ReplayReadyDetail, ReplayTimeUpdateDetail, StatsReadyDetail } from "./types/component-props";
+export { DecompressErrorDetail, HeatmapReadyDetail, ReplayFullscreenChangeDetail, ReplayReadyDetail, ReplayTimeUpdateDetail, StatsReadyDetail } from "./types/component-props";
 export namespace Components {
     interface HeatmapCanvas {
         /**
@@ -234,6 +234,7 @@ declare global {
         "heatmapReady": HeatmapReadyDetail;
         "statsReady": StatsReadyDetail;
         "decompressError": DecompressErrorDetail;
+        "replayFullscreenChange": ReplayFullscreenChangeDetail;
     }
     interface HTMLWebReplayerElement extends Components.WebReplayer, HTMLStencilElement {
         addEventListener<K extends keyof HTMLWebReplayerElementEventMap>(type: K, listener: (this: HTMLWebReplayerElement, ev: WebReplayerCustomEvent<HTMLWebReplayerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -380,6 +381,7 @@ declare namespace LocalJSX {
         "onDecompressError"?: (event: WebReplayerCustomEvent<DecompressErrorDetail>) => void;
         "onHeatmapReady"?: (event: WebReplayerCustomEvent<HeatmapReadyDetail>) => void;
         "onReplayFinish"?: (event: WebReplayerCustomEvent<void>) => void;
+        "onReplayFullscreenChange"?: (event: WebReplayerCustomEvent<ReplayFullscreenChangeDetail>) => void;
         "onReplayPause"?: (event: WebReplayerCustomEvent<void>) => void;
         "onReplayReady"?: (event: WebReplayerCustomEvent<ReplayReadyDetail>) => void;
         "onReplayStart"?: (event: WebReplayerCustomEvent<void>) => void;

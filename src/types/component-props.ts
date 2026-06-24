@@ -95,3 +95,8 @@ export interface DecompressErrorDetail {
   error: string;
   rawInput: string | any[];
 }
+
+export interface ReplayFullscreenChangeDetail {
+  /** Whether the <web-replayer> host is currently in fullscreen mode */
+  isFullscreen: boolean;
+}

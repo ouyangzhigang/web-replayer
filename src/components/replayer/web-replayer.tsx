@@ -42,6 +42,7 @@ import {
   HeatmapReadyDetail,
   StatsReadyDetail,
   DecompressErrorDetail,
+  ReplayFullscreenChangeDetail,
 } from '../../types/component-props';
 
 @Component({
@@ -162,6 +163,7 @@ export class WebReplayer {
   @Event({ bubbles: true, composed: true }) heatmapReady!: EventEmitter<HeatmapReadyDetail>;
   @Event({ bubbles: true, composed: true }) statsReady!: EventEmitter<StatsReadyDetail>;
   @Event({ bubbles: true, composed: true }) decompressError!: EventEmitter<DecompressErrorDetail>;
+  @Event({ bubbles: true, composed: true }) replayFullscreenChange!: EventEmitter<ReplayFullscreenChangeDetail>;
 
   // ── Watchers ──
 
@@ -621,6 +623,9 @@ export class WebReplayer {
     // (especially exit fullscreen), so explicitly re-scale
     this.isFullscreen = document.fullscreenElement === this.host;
     this.reScaleReplayer();
+    // Notify consumers of enter/exit — covers ESC and programmatic toggles,
+    // not just the built-in controls button.
+    this.replayFullscreenChange.emit({ isFullscreen: this.isFullscreen });
   };
 
   // ── Mouse Idle Detection (auto-hide controls) ──
