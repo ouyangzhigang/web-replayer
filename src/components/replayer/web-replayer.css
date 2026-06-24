@@ -13,7 +13,23 @@
   overflow: hidden;
 }
 
-/* When stats sidebar is shown, flex horizontally */
+/* rrweb sets the iframe's width/height/transform via inline styles at runtime,
+ * so only static cosmetics are themed here. The iframe is a descendant of the
+ * host's shadow root, so target it as `:host iframe` (NOT `:host(iframe)`,
+ * which would only match if the host itself were an iframe).
+ * Override externally by setting these tokens on the host — custom properties
+ * inherit through the shadow boundary:
+ *   web-replayer { --wr-iframe-bg: #fff; --wr-iframe-border: 1px solid #eee; } */
+:host iframe {
+  background: var(--wr-iframe-bg, transparent);
+  border: var(--wr-iframe-border, none);
+}
+
+:host iframe::-webkit-scrollbar {
+  display: none;
+}
+
+  /* When stats sidebar is shown, flex horizontally */
 :host(.with-stats) {
   flex-direction: row;
 }

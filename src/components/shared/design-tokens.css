@@ -25,6 +25,13 @@
   /* ── Replay Area ── */
   --wr-color-replay-bg: transparent;
 
+  /* ── Replay Iframe (outer box) ──
+   * rrweb owns the iframe's width/height/transform (inline styles), so
+   * only static cosmetics belong here. These tokens set the element's
+   * own box, NOT the recorded document inside (use insertStyleRules for that). */
+  --wr-iframe-bg: transparent;
+  --wr-iframe-border: none;
+
   /* ── Text Colors ── */
   --wr-color-text-primary: #1a1a1a;
   --wr-color-text-secondary: #666;
