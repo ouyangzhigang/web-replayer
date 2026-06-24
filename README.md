@@ -177,6 +177,7 @@ el.data = events;
 | `heatmapReady` | `{ heatmapData }` | Fired when heatmap data is computed |
 | `statsReady` | `{ statsData }` | Fired when stats data is computed |
 | `decompressError` | `{ error, rawInput }` | Fired on decompression/parsing failure |
+| `replayFullscreenChange` | `{ isFullscreen }` | Fired on fullscreen enter/exit (covers ESC and programmatic toggles, not just the controls button) |
 
 #### Methods
 
