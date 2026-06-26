@@ -31,7 +31,7 @@ import {
 } from '@stencil/core';
 import { Replayer, eventWithTime } from 'rrweb';
 import { decompress } from '../../utils/decompress';
-import { parseEvents, validateEvents, extractMetadata } from '../../utils/event-parser';
+import { parseEvents, validateEvents, extractMetadata, isChunkedData, mergeChunkedEvents } from '../../utils/event-parser';
 import { computeAnalytics } from '../../utils/analytics';
 import { destroyReplayer } from '../../utils/dom-helper';
 import { RrwebEvent } from '../../types/events';
@@ -43,6 +43,7 @@ import {
   StatsReadyDetail,
   DecompressErrorDetail,
   ReplayFullscreenChangeDetail,
+  ReplayDblClickDetail,
 } from '../../types/component-props';
 
 @Component({
@@ -58,8 +59,13 @@ export class WebReplayer {
    *  - Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64)
    *  - JSON-serialized string (JSON.stringify of an event array)
    *  - Raw event array (RrwebEvent[] or any[] with timestamp+type fields)
-   *  Auto-detection picks the optimal path: arrays skip decompress+parse,
-   *  JSON strings skip decompress, compressed strings go through full pipeline.
+   *  - Chunked shard array: each element has a `fcontent` string (LZ-String
+   *    base64 compressed event fragment), `fevent_order`, `fevent_count`.
+   *    Chunks are ordered by `fevent_order`, decompressed, merged into one
+   *    event array (see mergeChunkedEvents).
+   *  Auto-detection picks the optimal path: chunk arrays decompress+merge,
+   *  raw arrays skip decompress+parse, JSON strings skip decompress,
+   *  compressed strings go through full pipeline.
    */
   @Prop() data!: string | any[];
   /** Component width — accepts CSS values: "85%", "800px", "50vw", or bare number "800" (treated as px). */
@@ -164,6 +170,10 @@ export class WebReplayer {
   @Event({ bubbles: true, composed: true }) statsReady!: EventEmitter<StatsReadyDetail>;
   @Event({ bubbles: true, composed: true }) decompressError!: EventEmitter<DecompressErrorDetail>;
   @Event({ bubbles: true, composed: true }) replayFullscreenChange!: EventEmitter<ReplayFullscreenChangeDetail>;
+  /** Emitted when the replay viewport is double-clicked.
+   *  Carries the current fullscreen state so listeners can react
+   *  (e.g., toggle fullscreen) without a separate query. */
+  @Event({ bubbles: true, composed: true }) replayDblClick!: EventEmitter<ReplayDblClickDetail>;
 
   // ── Watchers ──
 
@@ -281,6 +291,12 @@ export class WebReplayer {
     return this.analyticsData;
   }
 
+  /** Whether the <web-replayer> host is currently in fullscreen mode. */
+  @Method()
+  async getIsFullscreen(): Promise<boolean> {
+    return this.isFullscreen;
+  }
+
   // ── Private Methods ──
 
   /**
@@ -376,9 +392,11 @@ export class WebReplayer {
     try {
       let events: RrwebEvent[];
 
-      // ── Path 1: Direct array input (zero parsing overhead) ──
+      // ── Path 1: Array input ──
+      //   - Chunked shard array (fcontent per element) → decompress + merge
+      //   - Raw event array → filter directly (zero parsing overhead)
       if (Array.isArray(raw)) {
-        events = parseEvents(raw);
+        events = isChunkedData(raw) ? mergeChunkedEvents(raw) : parseEvents(raw);
       } else {
         // ── Path 2/3: String input ──
         const trimmed = typeof raw === 'string' ? raw.trimStart() : '';
@@ -754,6 +772,12 @@ export class WebReplayer {
     }
   };
 
+  /** Double-click on the replay viewport — emit event with current fullscreen state.
+   *  Does NOT toggle fullscreen itself; listeners decide what to do (if anything). */
+  private handleDblClick = () => {
+    this.replayDblClick.emit({ isFullscreen: this.isFullscreen });
+  };
+
   private handleSkipInactiveToggle = (skip: boolean) => {
     this.skipInactive = skip;
     if (this.replayer) {
@@ -827,7 +851,8 @@ export class WebReplayer {
       >
         <div class="player-viewport"
           onMouseMove={this.handleMouseMove}
-          onMouseLeave={this.handleMouseLeave}>
+          onMouseLeave={this.handleMouseLeave}
+          onDblClick={this.handleDblClick}>
           <div class="replay-container">
             {/* rrweb Replayer renders into this container */}
           </div>

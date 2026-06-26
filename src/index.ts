@@ -16,11 +16,11 @@ export { WrTooltip } from './components/shared/tooltip';
 
 // ── Utility exports ──
 export { decompress, detectFormat, DecompressFormat } from './utils/decompress';
-export { parseEvents, validateEvents, extractMetadata } from './utils/event-parser';
+export { parseEvents, validateEvents, extractMetadata, isChunkedData, mergeChunkedEvents } from './utils/event-parser';
 export { computeHeatmapData, computeStatsData, computeAnalytics } from './utils/analytics';
 
 // ── Type exports ──
 export type { RrwebEvent, RrwebEventBase, SessionMetadata } from './types/events';
 export { RrwebEventType, IncrementalSource, MouseInteractionType } from './types/events';
 export type { HeatmapData, HeatmapPoint, StatsData, OperationTally, DurationEntry, PathStep, AnalyticsData, HeatmapType, HeatmapColorScheme, StatsMetric, StatsPanelLayout } from './types/analytics';
-export type { WebReplayerProps, WebHeatmapProps, WebStatsPanelProps, ReplayReadyDetail, ReplayTimeUpdateDetail, HeatmapReadyDetail, StatsReadyDetail, DecompressErrorDetail } from './types/component-props';
+export type { WebReplayerProps, WebHeatmapProps, WebStatsPanelProps, ReplayReadyDetail, ReplayTimeUpdateDetail, HeatmapReadyDetail, StatsReadyDetail, DecompressErrorDetail, ReplayFullscreenChangeDetail, ReplayDblClickDetail } from './types/component-props';

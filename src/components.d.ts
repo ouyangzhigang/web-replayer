@@ -7,10 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { AnalyticsData, HeatmapColorScheme, HeatmapData, HeatmapType, OperationTally, StatsMetric, StatsPanelLayout } from "./types/analytics";
 import { RrwebEvent } from "./types/events";
-import { DecompressErrorDetail, HeatmapReadyDetail, ReplayFullscreenChangeDetail, ReplayReadyDetail, ReplayTimeUpdateDetail, StatsReadyDetail } from "./types/component-props";
+import { DecompressErrorDetail, HeatmapReadyDetail, ReplayDblClickDetail, ReplayFullscreenChangeDetail, ReplayReadyDetail, ReplayTimeUpdateDetail, StatsReadyDetail } from "./types/component-props";
 export { AnalyticsData, HeatmapColorScheme, HeatmapData, HeatmapType, OperationTally, StatsMetric, StatsPanelLayout } from "./types/analytics";
 export { RrwebEvent } from "./types/events";
-export { DecompressErrorDetail, HeatmapReadyDetail, ReplayFullscreenChangeDetail, ReplayReadyDetail, ReplayTimeUpdateDetail, StatsReadyDetail } from "./types/component-props";
+export { DecompressErrorDetail, HeatmapReadyDetail, ReplayDblClickDetail, ReplayFullscreenChangeDetail, ReplayReadyDetail, ReplayTimeUpdateDetail, StatsReadyDetail } from "./types/component-props";
 export namespace Components {
     interface HeatmapCanvas {
         /**
@@ -92,7 +92,7 @@ export namespace Components {
          */
         "autoPlay": boolean;
         /**
-          * Session data — accepts multiple formats: - Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64) - JSON-serialized string (JSON.stringify of an event array) - Raw event array (RrwebEvent[] or any[] with timestamp+type fields) Auto-detection picks the optimal path: arrays skip decompress+parse, JSON strings skip decompress, compressed strings go through full pipeline.
+          * Session data — accepts multiple formats: - Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64) - JSON-serialized string (JSON.stringify of an event array) - Raw event array (RrwebEvent[] or any[] with timestamp+type fields) - Chunked shard array: each element has a `fcontent` string (LZ-String   base64 compressed event fragment), `fevent_order`, `fevent_count`.   Chunks are ordered by `fevent_order`, decompressed, merged into one   event array (see mergeChunkedEvents). Auto-detection picks the optimal path: chunk arrays decompress+merge, raw arrays skip decompress+parse, JSON strings skip decompress, compressed strings go through full pipeline.
          */
         "data": string | any[];
         /**
@@ -102,6 +102,10 @@ export namespace Components {
         "fullscreenMaxRatio": number;
         "getAnalytics": () => Promise<AnalyticsData | null>;
         "getEvents": () => Promise<RrwebEvent[]>;
+        /**
+          * Whether the <web-replayer> host is currently in fullscreen mode.
+         */
+        "getIsFullscreen": () => Promise<boolean>;
         /**
           * Component height — accepts CSS values: "888px", "60vh", or bare number "888" (treated as px).
          */
@@ -235,6 +239,7 @@ declare global {
         "statsReady": StatsReadyDetail;
         "decompressError": DecompressErrorDetail;
         "replayFullscreenChange": ReplayFullscreenChangeDetail;
+        "replayDblClick": ReplayDblClickDetail;
     }
     interface HTMLWebReplayerElement extends Components.WebReplayer, HTMLStencilElement {
         addEventListener<K extends keyof HTMLWebReplayerElementEventMap>(type: K, listener: (this: HTMLWebReplayerElement, ev: WebReplayerCustomEvent<HTMLWebReplayerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -361,7 +366,7 @@ declare namespace LocalJSX {
          */
         "autoPlay"?: boolean;
         /**
-          * Session data — accepts multiple formats: - Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64) - JSON-serialized string (JSON.stringify of an event array) - Raw event array (RrwebEvent[] or any[] with timestamp+type fields) Auto-detection picks the optimal path: arrays skip decompress+parse, JSON strings skip decompress, compressed strings go through full pipeline.
+          * Session data — accepts multiple formats: - Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64) - JSON-serialized string (JSON.stringify of an event array) - Raw event array (RrwebEvent[] or any[] with timestamp+type fields) - Chunked shard array: each element has a `fcontent` string (LZ-String   base64 compressed event fragment), `fevent_order`, `fevent_count`.   Chunks are ordered by `fevent_order`, decompressed, merged into one   event array (see mergeChunkedEvents). Auto-detection picks the optimal path: chunk arrays decompress+merge, raw arrays skip decompress+parse, JSON strings skip decompress, compressed strings go through full pipeline.
          */
         "data": string | any[];
         /**
@@ -380,6 +385,10 @@ declare namespace LocalJSX {
         "interact"?: boolean;
         "onDecompressError"?: (event: WebReplayerCustomEvent<DecompressErrorDetail>) => void;
         "onHeatmapReady"?: (event: WebReplayerCustomEvent<HeatmapReadyDetail>) => void;
+        /**
+          * Emitted when the replay viewport is double-clicked. Carries the current fullscreen state so listeners can react (e.g., toggle fullscreen) without a separate query.
+         */
+        "onReplayDblClick"?: (event: WebReplayerCustomEvent<ReplayDblClickDetail>) => void;
         "onReplayFinish"?: (event: WebReplayerCustomEvent<void>) => void;
         "onReplayFullscreenChange"?: (event: WebReplayerCustomEvent<ReplayFullscreenChangeDetail>) => void;
         "onReplayPause"?: (event: WebReplayerCustomEvent<void>) => void;

@@ -100,3 +100,8 @@ export interface ReplayFullscreenChangeDetail {
   /** Whether the <web-replayer> host is currently in fullscreen mode */
   isFullscreen: boolean;
 }
+
+export interface ReplayDblClickDetail {
+  /** Whether the <web-replayer> host was in fullscreen mode at the moment of the double-click */
+  isFullscreen: boolean;
+}

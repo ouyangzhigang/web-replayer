@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-24T12:27:56",
+  "timestamp": "2026-06-26T04:29:14",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.43.5",
@@ -811,7 +811,7 @@
           "mutable": false,
           "attr": "data",
           "reflectToAttr": false,
-          "docs": "Session data — accepts multiple formats:\n- Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64)\n- JSON-serialized string (JSON.stringify of an event array)\n- Raw event array (RrwebEvent[] or any[] with timestamp+type fields)\nAuto-detection picks the optimal path: arrays skip decompress+parse,\nJSON strings skip decompress, compressed strings go through full pipeline.",
+          "docs": "Session data — accepts multiple formats:\n- Compressed string (LZ-String URI-safe/UTF-16/Base64, pako gzip base64)\n- JSON-serialized string (JSON.stringify of an event array)\n- Raw event array (RrwebEvent[] or any[] with timestamp+type fields)\n- Chunked shard array: each element has a `fcontent` string (LZ-String\n  base64 compressed event fragment), `fevent_order`, `fevent_count`.\n  Chunks are ordered by `fevent_order`, decompressed, merged into one\n  event array (see mergeChunkedEvents).\nAuto-detection picks the optimal path: chunk arrays decompress+merge,\nraw arrays skip decompress+parse, JSON strings skip decompress,\ncompressed strings go through full pipeline.",
           "docsTags": [],
           "values": [
             {
@@ -1169,6 +1169,28 @@
           "docsTags": []
         },
         {
+          "name": "getIsFullscreen",
+          "returns": {
+            "type": "Promise<boolean>",
+            "docs": ""
+          },
+          "complexType": {
+            "signature": "() => Promise<boolean>",
+            "parameters": [],
+            "references": {
+              "Promise": {
+                "location": "global",
+                "id": "global::Promise"
+              }
+            },
+            "return": "Promise<boolean>"
+          },
+          "signature": "getIsFullscreen() => Promise<boolean>",
+          "parameters": [],
+          "docs": "Whether the <web-replayer> host is currently in fullscreen mode.",
+          "docsTags": []
+        },
+        {
           "name": "pause",
           "returns": {
             "type": "Promise<void>",
@@ -1288,6 +1310,27 @@
           "cancelable": true,
           "composed": true,
           "docs": "",
+          "docsTags": []
+        },
+        {
+          "event": "replayDblClick",
+          "detail": "ReplayDblClickDetail",
+          "bubbles": true,
+          "complexType": {
+            "original": "ReplayDblClickDetail",
+            "resolved": "ReplayDblClickDetail",
+            "references": {
+              "ReplayDblClickDetail": {
+                "location": "import",
+                "path": "../../types/component-props",
+                "id": "src/types/component-props.ts::ReplayDblClickDetail",
+                "referenceLocation": "ReplayDblClickDetail"
+              }
+            }
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Emitted when the replay viewport is double-clicked.\nCarries the current fullscreen state so listeners can react\n(e.g., toggle fullscreen) without a separate query.",
           "docsTags": []
         },
         {
@@ -1698,6 +1741,11 @@
     },
     "src/types/component-props.ts::ReplayFullscreenChangeDetail": {
       "declaration": "export interface ReplayFullscreenChangeDetail {\n  /** Whether the <web-replayer> host is currently in fullscreen mode */\n  isFullscreen: boolean;\n}",
+      "docstring": "",
+      "path": "src/types/component-props.ts"
+    },
+    "src/types/component-props.ts::ReplayDblClickDetail": {
+      "declaration": "export interface ReplayDblClickDetail {\n  /** Whether the <web-replayer> host was in fullscreen mode at the moment of the double-click */\n  isFullscreen: boolean;\n}",
       "docstring": "",
       "path": "src/types/component-props.ts"
     },
