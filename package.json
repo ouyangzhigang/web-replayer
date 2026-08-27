@@ -1,5 +1,5 @@
 {
-  "name": "@lotus/web-replayer",
+  "name": "@ouyangzhigang/web-replayer",
   "version": "0.0.5",
   "description": "Framework-agnostic Web Component for @ouyangzhigang/web-recorder session replay with interaction heatmap and operation analytics",
   "type": "module",
