@@ -23,9 +23,9 @@ Framework-agnostic Web Component for rrweb session replay with interaction heatm
 ## Install
 
 ```bash
-npm install @lotus/web-replayer
+npm install @ouyangzhigang/web-replayer
 # or
-pnpm add @lotus/web-replayer
+pnpm add @ouyangzhigang/web-replayer
 ```
 
 ## Quick Start
@@ -34,7 +34,7 @@ pnpm add @lotus/web-replayer
 
 ```html
 <script type="module">
-  import '@lotus/web-replayer';
+  import '@ouyangzhigang/web-replayer';
 </script>
 
 <!-- Minimal replay -->
@@ -56,7 +56,7 @@ pnpm add @lotus/web-replayer
 ### React
 
 ```jsx
-import '@lotus/web-replayer';
+import '@ouyangzhigang/web-replayer';
 import { useRef, useEffect } from 'react';
 
 function App() {
@@ -81,7 +81,7 @@ function App() {
 </template>
 
 <script setup>
-import '@lotus/web-replayer';
+import '@ouyangzhigang/web-replayer';
 import { ref, onMounted, watch } from 'vue';
 
 const replayer = ref(null);
@@ -109,7 +109,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 export class AppModule {}
 
 // component
-import '@lotus/web-replayer';
+import '@ouyangzhigang/web-replayer';
 ```
 
 ```html
@@ -134,7 +134,7 @@ Detection logic:
 - Otherwise → compressed string path (full pipeline)
 
 ```js
-// Compressed string (from @lotus/web-recorder)
+// Compressed string (from @ouyangzhigang/web-recorder)
 el.data = LZString.compressToEncodedURIComponent(JSON.stringify(events));
 
 // JSON string
