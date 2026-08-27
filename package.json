@@ -1,7 +1,7 @@
 {
   "name": "@lotus/web-replayer",
   "version": "0.0.5",
-  "description": "Framework-agnostic Web Component for @lotus/web-recorder session replay with interaction heatmap and operation analytics",
+  "description": "Framework-agnostic Web Component for @ouyangzhigang/web-recorder session replay with interaction heatmap and operation analytics",
   "type": "module",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
@@ -53,6 +53,6 @@
     "web-component",
     "stencil"
   ],
-  "author": "zaneouyang@lexin.com",
+  "author": "ouyangzhigang@live.com",
   "license": "MIT"
 }
