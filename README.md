@@ -1,10 +1,10 @@
-# @lotus/web-replayer
+# @ouyangzhigang/web-replayer
 
 Framework-agnostic Web Component for rrweb session replay with interaction heatmap and operation analytics. Built with [Stencil](https://stenciljs.com/).
 
 <p align="center">
-  <img src="https://img.shields.io/npm/v/@lotus/web-replayer" alt="npm version" />
-  <img src="https://img.shields.io/npm/l/@lotus/web-replayer" alt="license" />
+  <img src="https://img.shields.io/npm/v/@ouyangzhigang/web-replayer" alt="npm version" />
+  <img src="https://img.shields.io/npm/l/@ouyangzhigang/web-replayer" alt="license" />
 </p>
 
 ## Features
