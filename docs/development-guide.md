@@ -1,8 +1,8 @@
-# @lotus/web-replayer 开发指南
+# @ouyangzhigang/web-replayer 开发指南
 
 ## 项目概述
 
-`@lotus/web-replayer` 是基于 [Stencil](https://stenciljs.com/) 构建的 Web Component 库，用于 rrweb 会话回放、交互热力图和行为统计分析。作为 `@lotus/web-recorder` 录制器的配套组件，提供从数据解压到可视化呈现的完整回放体验。
+`@ouyangzhigang/web-replayer` 是基于 [Stencil](https://stenciljs.com/) 构建的 Web Component 库，用于 rrweb 会话回放、交互热力图和行为统计分析。作为 `@ouyangzhigang/web-recorder` 录制器的配套组件，提供从数据解压到可视化呈现的完整回放体验。
 
 ### 技术栈
 
@@ -161,7 +161,7 @@ register.js → import { defineCustomElement } from './dist/components/web-repla
 }
 ```
 
-用户可以通过 `import '@lotus/web-replayer'`（惰性加载）或 `import '@lotus/web-replayer/components/web-replayer.js'`（直接引用）两种方式导入。
+用户可以通过 `import '@ouyangzhigang/web-replayer'`（惰性加载）或 `import '@ouyangzhigang/web-replayer/components/web-replayer.js'`（直接引用）两种方式导入。
 
 ---
 
@@ -322,14 +322,14 @@ npm publish
 
 ### npm scope 配置
 
-包名为 `@lotus/web-replayer`，需要配置 npm registry 的 scope 权限：
+包名为 `@ouyangzhigang/web-replayer`，需要配置 npm registry 的 scope 权限：
 
 ```bash
-# 如果 @lotus scope 有自定义 registry
-npm config set @lotus:registry https://registry.npmjs.org/
+# 如果 @ouyangzhigang scope 有自定义 registry
+npm config set @ouyangzhigang:registry https://registry.npmjs.org/
 
 # 或使用企业内部 registry
-npm config set @lotus:registry https://npm.company.com/
+npm config set @ouyangzhigang:registry https://npm.company.com/
 ```
 
 ---
